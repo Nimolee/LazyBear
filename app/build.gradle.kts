@@ -1,6 +1,15 @@
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+}
+
+
+val keysProperties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "app/config/keys.properties")))
 }
 
 android {
@@ -18,6 +27,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "TMDB_API_KEY", "\"${keysProperties.getProperty("tmdb_api_key")}\"")
     }
 
     buildTypes {
@@ -49,6 +59,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
