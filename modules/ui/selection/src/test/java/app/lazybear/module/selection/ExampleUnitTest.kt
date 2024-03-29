@@ -1,4 +1,4 @@
-package app.lazybear
+package app.lazybear.module.selection
 
 import org.junit.Test
 

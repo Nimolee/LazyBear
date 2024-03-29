@@ -10,4 +10,8 @@ object Modules {
     object Utils {
         const val LOG = ":modules:utils:log"
     }
+
+    object UI {
+        const val SELECTION = ":modules:ui:selection"
+    }
 }

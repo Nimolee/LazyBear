@@ -12,6 +12,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "SHARED_PREFERENCES_NAME", "\"LazyPrefs\"")
+        buildConfigField("String", "ENCRYPTED_SHARED_PREFERENCES_NAME", "\"LazyCryptoPrefs\"")
     }
 
     buildTypes {
@@ -23,6 +25,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -33,10 +38,11 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Data.PREFERENCES))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.crypto.prefs)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,6 +1,6 @@
-import java.io.File
+
 import java.io.FileInputStream
-import java.util.*
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -27,7 +27,11 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "TMDB_API_KEY", "\"${keysProperties.getProperty("tmdb_api_key")}\"")
+        buildConfigField(
+            "String",
+            "TMDB_API_KEY",
+            "\"${keysProperties.getProperty("tmdb_api_key")}\""
+        )
     }
 
     buildTypes {
@@ -72,20 +76,18 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Data.SERVER))
+    implementation(project(Modules.Data.TMDB_API))
+    implementation(project(Modules.Data.TMDB_API_IMPL))
+    implementation(project(Modules.Data.PREFERENCES))
+    implementation(project(Modules.Data.PREFERENCES_IMPL))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
+    implementation(libs.bundles.koin)
+    implementation(libs.bundles.material)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

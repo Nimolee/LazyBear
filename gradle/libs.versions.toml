@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha08"
+agp = "8.5.0-alpha02"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -7,9 +7,13 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
-composeBom = "2024.02.00"
-appcompat = "1.6.1"
-material = "1.10.0"
+composeBom = "2024.03.00"
+retrofit = "2.11.0"
+koin = "3.5.3"
+okhttp = "4.12.0"
+appcompatVersion = "1.6.1"
+materialVersion = "1.11.0"
+prefsCrypto = "1.1.0-alpha06"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -24,10 +28,23 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+retrofit-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
+material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
+crypto-prefs = { group = "androidx.security", name = "security-crypto", version.ref = "prefsCrypto" }
+crypto-prefs-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "prefsCrypto" }
+
+[bundles]
+koin = ["koin-core", "koin-compose", "koin-android"]
+material = ["androidx-material3", "androidx-ui-graphics", "androidx-activity-compose", "androidx-ui", "androidx-ui-tooling", ]
+retrofit = ["retrofit", "retrofit-gson-converter", "retrofit-logging"]
+crypto-prefs = ["crypto-prefs", "crypto-prefs-ktx"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
