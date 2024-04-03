@@ -6,14 +6,15 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.7.0"
-activityCompose = "1.8.2"
+activity = "1.8.2"
+navigation = "2.7.7"
 composeBom = "2024.03.00"
 retrofit = "2.11.0"
 koin = "3.5.3"
 okhttp = "4.12.0"
-appcompatVersion = "1.6.1"
-materialVersion = "1.11.0"
 prefsCrypto = "1.1.0-alpha06"
+splash = "1.0.1"
+gson = "2.10.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,7 +22,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
+androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -35,14 +37,13 @@ retrofit-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompatVersion" }
-material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 crypto-prefs = { group = "androidx.security", name = "security-crypto", version.ref = "prefsCrypto" }
 crypto-prefs-ktx = { group = "androidx.security", name = "security-crypto-ktx", version.ref = "prefsCrypto" }
+splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [bundles]
 koin = ["koin-core", "koin-compose", "koin-android"]
-material = ["androidx-material3", "androidx-ui-graphics", "androidx-activity-compose", "androidx-ui", "androidx-ui-tooling", ]
 retrofit = ["retrofit", "retrofit-gson-converter", "retrofit-logging"]
 crypto-prefs = ["crypto-prefs", "crypto-prefs-ktx"]
 

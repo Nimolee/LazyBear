@@ -1,4 +1,3 @@
-
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -81,13 +80,19 @@ dependencies {
     implementation(project(Modules.Data.TMDB_API_IMPL))
     implementation(project(Modules.Data.PREFERENCES))
     implementation(project(Modules.Data.PREFERENCES_IMPL))
+    implementation(project(Modules.UI.ADVICE))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.material3)
+    implementation(libs.splash)
     implementation(libs.bundles.koin)
-    implementation(libs.bundles.material)
-    implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

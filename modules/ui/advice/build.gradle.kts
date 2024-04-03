@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "app.lazybear.module.data.preferences_impl"
+    namespace = "app.lazybear.advice"
     compileSdk = 34
 
     defaultConfig {
@@ -12,8 +12,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "SHARED_PREFERENCES_NAME", "\"LazyPrefs\"")
-        buildConfigField("String", "ENCRYPTED_SHARED_PREFERENCES_NAME", "\"LazyCryptoPrefs\"")
     }
 
     buildTypes {
@@ -26,7 +24,10 @@ android {
         }
     }
     buildFeatures {
-        buildConfig = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -38,12 +39,20 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Data.SERVER))
+    implementation(project(Modules.Data.TMDB_API))
     implementation(project(Modules.Data.PREFERENCES))
+    implementation(project(Modules.Utils.LOG))
+    implementation(project(Modules.Utils.LOCALIZATION))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.gson)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.material3)
     implementation(libs.bundles.koin)
-    implementation(libs.bundles.crypto.prefs)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.tooling.preview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

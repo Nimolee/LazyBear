@@ -1,6 +1,7 @@
 package app.lazybear
 
 import android.app.Application
+import app.lazybear.advice.adviceModule
 import app.lazybear.module.data.preferences_impl.preferencesModule
 import com.lazybear.module.data.tmdb_api_impl.tmdbModule
 import org.koin.android.ext.koin.androidContext
@@ -22,7 +23,8 @@ class LazyApp : Application() {
             modules(
                 preferencesModule(TOKEN_FLOW_NAME),
                 tmdbModule(TOKEN_FLOW_NAME, BuildConfig.TMDB_API_KEY),
-                mainModule()
+                mainModule(),
+                adviceModule(),
             )
         }
     }

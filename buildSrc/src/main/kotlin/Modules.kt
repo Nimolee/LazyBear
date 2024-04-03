@@ -9,9 +9,10 @@ object Modules {
 
     object Utils {
         const val LOG = ":modules:utils:log"
+        const val LOCALIZATION = ":modules:utils:localization"
     }
 
     object UI {
-        const val SELECTION = ":modules:ui:selection"
+        const val ADVICE = ":modules:ui:advice"
     }
 }
