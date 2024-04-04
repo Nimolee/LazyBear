@@ -40,12 +40,12 @@ class TMDBRepositoryImpl(
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
 
     //TODO: Check possibility to redo it in proper way
-    private fun shouldDisplayCrewMember(member: CrewMember): Boolean {
-        return when (member.department) {
-            "Writing" -> true
-            "Directing" -> true
-            "Production" -> true
-            else -> false
+    private fun crewMemberJobIndex(member: CrewMember): Int {
+        return when (member.job) {
+            "Producer" -> 0
+            "Director" -> 1
+            "Writer" -> 2
+            else -> -1
         }
     }
 
@@ -107,7 +107,8 @@ class TMDBRepositoryImpl(
                 _movieEndpoints.loadMovieCredits(movieId).map { credits ->
                     movie.copy(
                         crew = credits!!.crew.map { it.toDomain() }
-                            .filter { shouldDisplayCrewMember(it) },
+                            .filter { crewMemberJobIndex(it) != -1 }
+                            .sortedBy { crewMemberJobIndex(it) },
                         cast = credits.cast.map { it.toDomain() }
                     )
                 }
