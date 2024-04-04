@@ -17,4 +17,6 @@ data class Movie(
     val releaseDate: LocalDate,
     val duration: Duration,
     val originalLanguage: String,
+    val crew: List<CrewMember>,
+    val cast: List<CastMember>,
 )

@@ -12,6 +12,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/original\"")
     }
 
     buildTypes {

@@ -1,5 +1,6 @@
 package app.lazybear.advice.screens.advice
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.advice.R
+import app.lazybear.advice.components.MovieCrewBlock
 import app.lazybear.advice.components.MovieDescriptionBlock
 import app.lazybear.advice.components.MoviePosterBlock
 import app.lazybear.advice.components.MovieTitleBlock
@@ -44,12 +47,14 @@ fun AdviceScreen(
         bottomBar = {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(
-                    bottom = bottomInset + 12.dp,
-                    top = 12.dp,
-                    start = 16.dp,
-                    end = 16.dp,
-                )
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(
+                        bottom = bottomInset + 12.dp,
+                        top = 12.dp,
+                        start = 16.dp,
+                        end = 16.dp,
+                    )
             ) {
                 OutlinedButton(
                     onClick = { onPreferencesOpen() },
@@ -104,6 +109,9 @@ fun AdviceScreen(
                 }
                 item {
                     MovieDescriptionBlock(description = movie.overview)
+                }
+                item {
+                    MovieCrewBlock(crew = movie.crew)
                 }
 
 

@@ -1,5 +1,6 @@
 package com.lazybear.module.data.tmdb_api_impl.entities
 
+import app.lazybear.module.data.tmdb_api_impl.BuildConfig
 import com.google.gson.annotations.SerializedName
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import java.time.Duration
@@ -24,7 +25,7 @@ data class MovieEntity(
 )
 
 private fun generateImageUrl(path: String): String {
-    return "https://image.tmdb.org/t/p/original$path"
+    return "${BuildConfig.IMAGE_URL}$path"
 }
 
 fun MovieEntity.toDomain(): Movie {
@@ -42,5 +43,7 @@ fun MovieEntity.toDomain(): Movie {
         releaseDate = LocalDate.parse(releaseDate, DateTimeFormatter.ISO_LOCAL_DATE),
         duration = Duration.of(runtime.toLong(), ChronoUnit.MINUTES),
         originalLanguage = originalLanguage,
+        cast = emptyList(),
+        crew = emptyList(),
     )
 }

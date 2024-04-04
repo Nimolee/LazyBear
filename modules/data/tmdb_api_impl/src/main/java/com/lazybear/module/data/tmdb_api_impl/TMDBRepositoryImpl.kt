@@ -4,8 +4,10 @@ import app.lazybear.module.data.server.ServerResult
 import app.lazybear.module.data.server.dropNull
 import app.lazybear.module.data.server.map
 import app.lazybear.module.data.server.mergeErrors
+import app.lazybear.module.data.server.onSuccess
 import app.lazybear.module.utils.log.logD
 import com.lazybear.module.data.tmdb_api.TMDBRepository
+import com.lazybear.module.data.tmdb_api.entities.CrewMember
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
@@ -36,6 +38,16 @@ class TMDBRepositoryImpl(
     override val genresFlow: MutableStateFlow<List<Genre>> = MutableStateFlow(emptyList())
     override val yearsFlow: MutableStateFlow<List<ReleaseYear>> =
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
+
+    //TODO: Check possibility to redo it in proper way
+    private fun shouldDisplayCrewMember(member: CrewMember): Boolean {
+        return when (member.department) {
+            "Writing" -> true
+            "Directing" -> true
+            "Production" -> true
+            else -> false
+        }
+    }
 
     override suspend fun loadGenres(force: Boolean): ServerResult<List<Genre>> {
         return _scope.async {
@@ -90,7 +102,18 @@ class TMDBRepositoryImpl(
         return _scope.async {
             _movieEndpoints.loadMovieDetails(movieId).map {
                 it?.toDomain()
-            }.dropNull()
+            }.dropNull().map { movie ->
+                movie ?: return@map null
+                _movieEndpoints.loadMovieCredits(movieId).map { credits ->
+                    movie.copy(
+                        crew = credits!!.crew.map { it.toDomain() }
+                            .filter { shouldDisplayCrewMember(it) },
+                        cast = credits.cast.map { it.toDomain() }
+                    )
+                }
+            }.mergeErrors().dropNull().onSuccess {
+                logD(TAG, "loadMovie") { "loadMovieResult = $it" }
+            }
         }.await()
     }
 }
