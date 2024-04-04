@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import app.lazybear.advice.screens.advice.AdviceArguments
 import app.lazybear.advice.screens.advice.AdviceScreen
-import app.lazybear.advice.screens.choose.ChooseScreen
-import app.lazybear.advice.screens.choose.PreferencesArguments
+import app.lazybear.advice.screens.preferences.ChooseScreen
+import app.lazybear.advice.screens.preferences.PreferencesArguments
 
 fun NavGraphBuilder.adviceNavigation(
     route: String,

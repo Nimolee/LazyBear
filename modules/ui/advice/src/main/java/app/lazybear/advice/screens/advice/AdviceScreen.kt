@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -25,18 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.advice.R
+import app.lazybear.advice.components.MoviePosterBlock
+import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.localization.Localization
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun AdviceScreen(
     arguments: AdviceArguments,
@@ -95,19 +90,18 @@ fun AdviceScreen(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 item {
-                    Card(
-                        modifier = Modifier
-                            .width((LocalConfiguration.current.screenWidthDp * 0.8).dp)
-                            .aspectRatio(6 / 9f)
-                    ) {
-                        GlideImage(
-                            model = movie.poster,
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
+                    MoviePosterBlock(posterUrl = movie.poster)
                 }
+                item {
+                    MovieTitleBlock(
+                        title = movie.title,
+                        rating = "PG",
+                        releaseYear = movie.releaseDate.year.toString(),
+                        duration = movie.duration,
+                        genres = movie.genres,
+                    )
+                }
+
 
             }
         }

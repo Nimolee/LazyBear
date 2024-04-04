@@ -1,4 +1,4 @@
-package app.lazybear.advice.screens.choose
+package app.lazybear.advice.screens.preferences
 
 import androidx.lifecycle.ViewModel
 import com.lazybear.module.data.tmdb_api.entities.Genre

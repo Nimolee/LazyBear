@@ -1,5 +1,8 @@
 package com.lazybear.module.data.tmdb_api.entities
 
+import java.time.Duration
+import java.time.LocalDate
+
 data class Movie(
     val id: Int,
     val title: String,
@@ -11,5 +14,7 @@ data class Movie(
     val imdbId: String,
     val poster: String,
     val backdrop: String,
+    val releaseDate: LocalDate,
+    val duration: Duration,
     val originalLanguage: String,
 )
