@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.advice.R
+import app.lazybear.advice.components.MovieCastBlock
 import app.lazybear.advice.components.MovieCrewBlock
 import app.lazybear.advice.components.MovieDescriptionBlock
 import app.lazybear.advice.components.MoviePosterBlock
@@ -113,7 +114,9 @@ fun AdviceScreen(
                 item {
                     MovieCrewBlock(crew = movie.crew)
                 }
-
+                item {
+                    MovieCastBlock(cast = movie.cast)
+                }
 
             }
         }

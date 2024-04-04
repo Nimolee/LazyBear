@@ -19,7 +19,7 @@ fun CastMemberEntity.toDomain(): CastMember {
     return CastMember(
         id = id,
         name = name,
-        profile = profilePath?.let { generateImageUrl(it) },
+        profileUrl = profilePath?.let { generateImageUrl(it) },
         character = character,
     )
 }

@@ -4,4 +4,5 @@
     <string name="shuffle_button">Shuffle</string>
     <string name="last_two_years">Last 2 years</string>
     <string name="surprise_me_button">Surprise me</string>
+    <string name="cast_title">Top Billed Cast:</string>
 </resources>
