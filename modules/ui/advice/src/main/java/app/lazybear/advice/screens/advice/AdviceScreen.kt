@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.advice.R
+import app.lazybear.advice.components.MovieDescriptionBlock
 import app.lazybear.advice.components.MoviePosterBlock
 import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.localization.Localization
@@ -100,6 +101,9 @@ fun AdviceScreen(
                         duration = movie.duration,
                         genres = movie.genres,
                     )
+                }
+                item {
+                    MovieDescriptionBlock(description = movie.overview)
                 }
 
 
