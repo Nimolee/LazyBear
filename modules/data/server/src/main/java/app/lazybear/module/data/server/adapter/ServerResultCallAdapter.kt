@@ -60,7 +60,7 @@ internal class ServerResultCallAdapter<S : Any?>(
                         } else {
                             callback.onResponse(
                                 this@ServerResultCallAdapter,
-                                success(ServerResult.UnknownError()),
+                                success(ServerResult.UnknownError),
                             )
                         }
                     }
@@ -79,8 +79,8 @@ internal class ServerResultCallAdapter<S : Any?>(
 
             override fun onFailure(call: Call<S>, throwable: Throwable) {
                 val networkResponse: ServerResult<Nothing> = when (throwable) {
-                    is IOException -> ServerResult.NetworkError()
-                    else -> ServerResult.UnknownError()
+                    is IOException -> ServerResult.NetworkError
+                    else -> ServerResult.UnknownError
                 }
                 callback.onResponse(this@ServerResultCallAdapter, success(networkResponse))
             }

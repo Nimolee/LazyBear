@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import app.lazybear.advice.screens.advice.AdviceArguments
 import app.lazybear.advice.screens.advice.AdviceScreen
-import app.lazybear.advice.screens.choose.ChooseArguments
 import app.lazybear.advice.screens.choose.ChooseScreen
+import app.lazybear.advice.screens.choose.PreferencesArguments
 
 fun NavGraphBuilder.adviceNavigation(
     route: String,
@@ -15,22 +15,25 @@ fun NavGraphBuilder.adviceNavigation(
 ) {
     navigation(
         route = route,
-        startDestination = ChooseArguments().toRoute(),
+        startDestination = AdviceArguments().toRoute(),
     ) {
         composable(
             route = AdviceArguments.route,
             arguments = AdviceArguments.arguments,
         ) {
             AdviceScreen(
-                arguments = AdviceArguments.fromBackStack(it)
+                arguments = AdviceArguments.fromBackStack(it),
+                onPreferencesOpen = {
+                    navController.navigate(PreferencesArguments().toRoute())
+                }
             )
         }
         composable(
-            route = ChooseArguments.route,
-            arguments = ChooseArguments.arguments,
+            route = PreferencesArguments.route,
+            arguments = PreferencesArguments.arguments,
         ) {
             ChooseScreen(
-                arguments = ChooseArguments.fromBackStack(it)
+                arguments = PreferencesArguments.fromBackStack(it)
             )
         }
     }

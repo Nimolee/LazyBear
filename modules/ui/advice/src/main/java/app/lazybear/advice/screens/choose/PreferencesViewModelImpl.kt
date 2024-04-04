@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class ChooseViewModelImpl(
+class PreferencesViewModelImpl(
     private val _tmdbRepository: TMDBRepository,
     private val _preferencesRepository: PreferencesRepository,
-) : ChooseViewModel() {
+) : PreferencesViewModel() {
     override val yearsFlow: Flow<List<ReleaseYear>> = _tmdbRepository.yearsFlow
     override val genresFlow: Flow<List<Genre>> = _tmdbRepository.genresFlow
     override val selectedYearIndexFlow: Flow<Int?> = _preferencesRepository.selectedYearIndexFlow

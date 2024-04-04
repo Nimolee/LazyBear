@@ -3,15 +3,15 @@ package app.lazybear.advice.screens.choose
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 
-class ChooseArguments {
+class PreferencesArguments {
     companion object {
-        private const val ROUTE_NAME = "choose"
+        private const val ROUTE_NAME = "preferences"
 
         const val route = ROUTE_NAME
         val arguments: List<NamedNavArgument> = listOf()
 
-        fun fromBackStack(backStack: NavBackStackEntry): ChooseArguments {
-            return ChooseArguments()
+        fun fromBackStack(backStack: NavBackStackEntry): PreferencesArguments {
+            return PreferencesArguments()
         }
     }
 

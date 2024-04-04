@@ -31,8 +31,8 @@ import org.koin.androidx.compose.koinViewModel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChooseScreen(
-    arguments: ChooseArguments,
-    viewModel: ChooseViewModel = koinViewModel(),
+    arguments: PreferencesArguments,
+    viewModel: PreferencesViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     Scaffold(
@@ -51,7 +51,7 @@ fun ChooseScreen(
                             vertical = 12.dp,
                         )
                 ) {
-                    Text(stringResource(id = Localization.shuffle_title))
+                    Text(stringResource(id = Localization.shuffle_button))
                 }
             }
         }

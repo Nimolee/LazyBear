@@ -5,7 +5,7 @@ import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
 import kotlinx.coroutines.flow.Flow
 
-abstract class ChooseViewModel() : ViewModel() {
+abstract class PreferencesViewModel() : ViewModel() {
     abstract val yearsFlow: Flow<List<ReleaseYear>>
     abstract val genresFlow: Flow<List<Genre>>
     abstract val selectedYearIndexFlow: Flow<Int?>

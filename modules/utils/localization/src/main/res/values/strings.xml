@@ -1,6 +1,7 @@
 <resources>
     <string name="genre_selection_title">Choose a movie genre</string>
     <string name="year_title">What year?</string>
-    <string name="shuffle_title">Shuffle</string>
+    <string name="shuffle_button">Shuffle</string>
     <string name="last_two_years">Last 2 years</string>
+    <string name="surprise_me_button">Surprise me</string>
 </resources>
