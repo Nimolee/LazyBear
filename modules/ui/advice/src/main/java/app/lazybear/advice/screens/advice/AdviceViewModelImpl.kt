@@ -17,6 +17,10 @@ class AdviceViewModelImpl(
     override val loadingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val movieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
 
+    init {
+        shuffle()
+    }
+
     private suspend fun getSelectedGenres(): List<Genre> {
         val all = _tmdbRepository.genresFlow.first()
         val selectedIds = _preferencesRepository.selectedGenresIdsFlow.value

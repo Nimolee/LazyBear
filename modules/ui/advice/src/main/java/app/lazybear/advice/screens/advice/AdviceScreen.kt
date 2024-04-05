@@ -29,10 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.advice.R
+import app.lazybear.advice.components.MovieBackdropBlock
 import app.lazybear.advice.components.MovieCastBlock
 import app.lazybear.advice.components.MovieCrewBlock
 import app.lazybear.advice.components.MovieDescriptionBlock
 import app.lazybear.advice.components.MoviePosterBlock
+import app.lazybear.advice.components.MovieSectionTitleBlock
 import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.localization.Localization
 import org.koin.androidx.compose.koinViewModel
@@ -117,7 +119,14 @@ fun AdviceScreen(
                 item {
                     MovieCastBlock(cast = movie.cast)
                 }
-
+                if (movie.backdrops.isNotEmpty()) {
+                    item {
+                        MovieSectionTitleBlock(title = stringResource(id = Localization.backdrops_title))
+                    }
+                    items(movie.backdrops.size) { index: Int ->
+                        MovieBackdropBlock(backdrop = movie.backdrops[index])
+                    }
+                }
             }
         }
         val loadingState = viewModel.loadingFlow.collectAsState(false)

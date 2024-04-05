@@ -19,4 +19,5 @@ data class Movie(
     val originalLanguage: String,
     val crew: List<CrewMember>,
     val cast: List<CastMember>,
+    val backdrops: List<MovieImage>,
 )

@@ -2,6 +2,7 @@ package com.lazybear.module.data.tmdb_api_impl.entities
 
 import app.lazybear.module.data.tmdb_api_impl.BuildConfig
 import com.google.gson.annotations.SerializedName
+import com.lazybear.module.data.tmdb_api.entities.CrewMember
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import java.time.Duration
 import java.time.LocalDate
@@ -22,6 +23,8 @@ data class MovieEntity(
     @SerializedName("release_date") val releaseDate: String,
     @SerializedName("runtime") val runtime: Int,
     @SerializedName("original_language") val originalLanguage: String,
+    @SerializedName("credits") val credits: CreditsEntity,
+    @SerializedName("images") val images: ImagesEntity,
 )
 
 private fun generateImageUrl(path: String): String {
@@ -43,7 +46,21 @@ fun MovieEntity.toDomain(): Movie {
         releaseDate = LocalDate.parse(releaseDate, DateTimeFormatter.ISO_LOCAL_DATE),
         duration = Duration.of(runtime.toLong(), ChronoUnit.MINUTES),
         originalLanguage = originalLanguage,
-        cast = emptyList(),
-        crew = emptyList(),
+        cast = credits.cast.map { it.toDomain() },
+        crew = credits.crew.map { it.toDomain() }
+            .filter { crewMemberJobIndex(it) != -1 }
+            .sortedBy { crewMemberJobIndex(it) },
+        backdrops = images.backdrops.map { it.toDomain() }
     )
+}
+
+
+//TODO: Check possibility to redo it in proper way
+private fun crewMemberJobIndex(member: CrewMember): Int {
+    return when (member.job) {
+        "Producer" -> 0
+        "Director" -> 1
+        "Writer" -> 2
+        else -> -1
+    }
 }

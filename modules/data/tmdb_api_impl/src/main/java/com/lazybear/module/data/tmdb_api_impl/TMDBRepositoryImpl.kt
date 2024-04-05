@@ -7,7 +7,6 @@ import app.lazybear.module.data.server.mergeErrors
 import app.lazybear.module.data.server.onSuccess
 import app.lazybear.module.utils.log.logD
 import com.lazybear.module.data.tmdb_api.TMDBRepository
-import com.lazybear.module.data.tmdb_api.entities.CrewMember
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
@@ -38,16 +37,6 @@ class TMDBRepositoryImpl(
     override val genresFlow: MutableStateFlow<List<Genre>> = MutableStateFlow(emptyList())
     override val yearsFlow: MutableStateFlow<List<ReleaseYear>> =
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
-
-    //TODO: Check possibility to redo it in proper way
-    private fun crewMemberJobIndex(member: CrewMember): Int {
-        return when (member.job) {
-            "Producer" -> 0
-            "Director" -> 1
-            "Writer" -> 2
-            else -> -1
-        }
-    }
 
     override suspend fun loadGenres(force: Boolean): ServerResult<List<Genre>> {
         return _scope.async {
@@ -102,17 +91,7 @@ class TMDBRepositoryImpl(
         return _scope.async {
             _movieEndpoints.loadMovieDetails(movieId).map {
                 it?.toDomain()
-            }.dropNull().map { movie ->
-                movie ?: return@map null
-                _movieEndpoints.loadMovieCredits(movieId).map { credits ->
-                    movie.copy(
-                        crew = credits!!.crew.map { it.toDomain() }
-                            .filter { crewMemberJobIndex(it) != -1 }
-                            .sortedBy { crewMemberJobIndex(it) },
-                        cast = credits.cast.map { it.toDomain() }
-                    )
-                }
-            }.mergeErrors().dropNull().onSuccess {
+            }.dropNull().dropNull().onSuccess {
                 logD(TAG, "loadMovie") { "loadMovieResult = $it" }
             }
         }.await()
