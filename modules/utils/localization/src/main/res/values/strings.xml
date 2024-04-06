@@ -7,4 +7,5 @@
     <string name="cast_title">Top Billed Cast:</string>
     <string name="backdrops_title">Backdrops:</string>
     <string name="trailers_title">Trailers:</string>
+    <string name="more_backdrops_button">More Backdrops</string>
 </resources>

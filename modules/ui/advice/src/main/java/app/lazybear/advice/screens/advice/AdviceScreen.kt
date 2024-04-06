@@ -39,6 +39,7 @@ import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.advice.components.MovieTrailerBlock
 import app.lazybear.localization.Localization
 import org.koin.androidx.compose.koinViewModel
+import kotlin.math.min
 
 @Composable
 fun AdviceScreen(
@@ -127,8 +128,26 @@ fun AdviceScreen(
                     item {
                         MovieSectionTitleBlock(title = stringResource(id = Localization.backdrops_title))
                     }
-                    items(movie.backdrops.size) { index: Int ->
+                    items(min(movie.backdrops.size, 3)) { index: Int ->
                         MovieBackdropBlock(backdrop = movie.backdrops[index])
+                    }
+                    if (movie.backdrops.size > 3) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        horizontal = 12.dp,
+                                        vertical = 16.dp,
+                                    )
+                            ) {
+                                OutlinedButton(
+                                    onClick = { /*TODO*/ },
+                                ) {
+                                    Text(text = stringResource(id = Localization.more_backdrops_button))
+                                }
+                            }
+                        }
                     }
                 }
             }

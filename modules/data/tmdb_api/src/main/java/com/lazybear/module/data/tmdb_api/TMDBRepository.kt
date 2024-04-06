@@ -12,7 +12,10 @@ interface TMDBRepository {
 
     suspend fun loadGenres(force: Boolean = false): ServerResult<List<Genre>>
 
-    suspend fun recommendMovie(genres: List<Genre>): ServerResult<Movie>
+    suspend fun recommendMovie(
+        genres: List<Genre>,
+        releaseYear: ReleaseYear? = null
+    ): ServerResult<Movie>
 
     suspend fun loadMovie(movieId: Int): ServerResult<Movie>
 }

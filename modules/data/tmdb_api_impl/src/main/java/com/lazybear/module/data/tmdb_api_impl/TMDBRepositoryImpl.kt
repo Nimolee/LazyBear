@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.time.format.DateTimeFormatter.ISO_DATE
 import kotlin.math.min
 import kotlin.random.Random
 
@@ -59,11 +60,20 @@ class TMDBRepositoryImpl(
         }.await()
     }
 
-    override suspend fun recommendMovie(genres: List<Genre>): ServerResult<Movie> {
+    override suspend fun recommendMovie(
+        genres: List<Genre>,
+        releaseYear: ReleaseYear?,
+    ): ServerResult<Movie> {
         logD(TAG, "recommendMovie") { "Start movie recommendation" }
+        val releaseDateAfter = releaseYear?.start?.let { ISO_DATE.format(it) }
+        val releaseDateBefore = releaseYear?.end?.let { ISO_DATE.format(it) }
         return _scope.async {
             val genresString = genres.joinToString(",") { it.id.toString() }
-            val result = _discoverEndpoints.getDiscoveredMovies(genres = genresString)
+            val result = _discoverEndpoints.getDiscoveredMovies(
+                genres = genresString,
+                releaseDateBefore = releaseDateBefore,
+                releaseDateAfter = releaseDateAfter,
+            )
             logD(TAG, "recommendMovie") { "$result with $genres" }
             result.map { body ->
                 val totalResults = body!!.totalResults
@@ -74,6 +84,8 @@ class TMDBRepositoryImpl(
                 )
                 val idResult = _discoverEndpoints.getDiscoveredMovies(
                     genres = genresString,
+                    releaseDateBefore = releaseDateBefore,
+                    releaseDateAfter = releaseDateAfter,
                     page = page,
                 )
                 idResult.map { idBody ->

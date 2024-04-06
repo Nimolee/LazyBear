@@ -6,6 +6,7 @@ import app.lazybear.module.data.server.onSuccess
 import com.lazybear.module.data.tmdb_api.TMDBRepository
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
+import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -27,6 +28,13 @@ class AdviceViewModelImpl(
         return all.filter { selectedIds.contains(it.id) }
     }
 
+    private suspend fun getSelectedYear(): ReleaseYear? {
+        val selectedIndex = _preferencesRepository.selectedYearIndexFlow.value
+        return selectedIndex?.let {
+            _tmdbRepository.yearsFlow.first()[it]
+        }
+    }
+
     override fun surprise() {
         TODO("Not yet implemented")
     }
@@ -34,7 +42,10 @@ class AdviceViewModelImpl(
     override fun shuffle() {
         viewModelScope.launch {
             loadingFlow.emit(true)
-            _tmdbRepository.recommendMovie(getSelectedGenres()).onSuccess {
+            _tmdbRepository.recommendMovie(
+                getSelectedGenres(),
+                getSelectedYear(),
+            ).onSuccess {
                 movieFlow.emit(it)
             }.also {
                 loadingFlow.emit(false)
