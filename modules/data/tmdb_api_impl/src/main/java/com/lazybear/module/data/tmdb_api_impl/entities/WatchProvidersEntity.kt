@@ -9,8 +9,8 @@ data class WatchProvidersEntity(
 )
 
 data class WatchProvidersCountryEntity(
-    @SerializedName("buy") val buyProviders: ArrayList<ProviderEntity>,
-    @SerializedName("rent") val rentProviders: ArrayList<ProviderEntity>,
+    @SerializedName("buy") val buyProviders: ArrayList<ProviderEntity>?,
+    @SerializedName("rent") val rentProviders: ArrayList<ProviderEntity>?,
 )
 
 
@@ -23,18 +23,19 @@ data class ProviderEntity(
 fun WatchProvidersEntity.toDomain(): List<WatchProvider> {
     val providers = mutableListOf<WatchProvider>()
     if (!results.containsKey("UA")) return emptyList()
-    results["UA"]!!.buyProviders.forEach { provider ->
+    results["UA"]?.buyProviders?.forEach { provider ->
         providers.add(
             WatchProvider(
                 id = provider.providerId,
                 name = provider.name,
                 logoLink = "${BuildConfig.IMAGE_URL}${provider.logoPath}",
                 allowBuy = true,
-                allowRent = results["UA"]!!.rentProviders.any { it.providerId == provider.providerId }
+                allowRent = results["UA"]?.rentProviders?.any { it.providerId == provider.providerId }
+                    ?: false
             ),
         )
     }
-    results["UA"]!!.rentProviders.forEach { provider ->
+    results["UA"]?.rentProviders?.forEach { provider ->
         if (providers.none { it.id == provider.providerId }) {
             providers.add(
                 WatchProvider(

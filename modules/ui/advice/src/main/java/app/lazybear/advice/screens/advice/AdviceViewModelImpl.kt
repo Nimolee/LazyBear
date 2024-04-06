@@ -3,6 +3,7 @@ package app.lazybear.advice.screens.advice
 import androidx.lifecycle.viewModelScope
 import app.lazybear.module.data.preferences.PreferencesRepository
 import app.lazybear.module.data.server.onSuccess
+import app.lazybear.module.utils.log.logD
 import com.lazybear.module.data.tmdb_api.TMDBRepository
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
@@ -15,6 +16,10 @@ class AdviceViewModelImpl(
     private val _tmdbRepository: TMDBRepository,
     private val _preferencesRepository: PreferencesRepository,
 ) : AdviceViewModel() {
+    companion object {
+        const val TAG = "AdviceViewModelImpl"
+    }
+
     override val loadingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val movieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
 
@@ -50,7 +55,13 @@ class AdviceViewModelImpl(
                     end = years.first().end,
                 ),
             ).onSuccess {
-                movieFlow.emit(it)
+                if (it?.bad == true) {
+                    logD(TAG, "surprise") { "Bad movie found, let's try again" }
+                    surpriseAttempt--
+                    surprise()
+                } else {
+                    movieFlow.emit(it)
+                }
             }.also {
                 loadingFlow.emit(false)
             }
@@ -65,7 +76,12 @@ class AdviceViewModelImpl(
                 getSelectedGenres(),
                 getSelectedYear(),
             ).onSuccess {
-                movieFlow.emit(it)
+                if (it?.bad == true) {
+                    logD(TAG, "shuffle") { "Bad movie found, let's try again" }
+                    shuffle()
+                } else {
+                    movieFlow.emit(it)
+                }
             }.also {
                 loadingFlow.emit(false)
             }

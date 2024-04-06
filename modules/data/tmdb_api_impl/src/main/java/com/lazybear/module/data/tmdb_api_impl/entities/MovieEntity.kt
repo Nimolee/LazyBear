@@ -23,6 +23,7 @@ data class MovieEntity(
     @SerializedName("release_date") val releaseDate: String,
     @SerializedName("runtime") val runtime: Int,
     @SerializedName("original_language") val originalLanguage: String,
+    @SerializedName("production_countries") val productionCountries: ArrayList<ProductionCountryEntity>,
     @SerializedName("credits") val credits: CreditsEntity,
     @SerializedName("images") val images: ImagesEntity,
     @SerializedName("videos") val videos: TrailersEntity,
@@ -55,6 +56,7 @@ fun MovieEntity.toDomain(): Movie {
         backdrops = images.backdrops.map { it.toDomain() },
         trailers = videos.results.toDomain(),
         watchProviders = watchProviders.toDomain(),
+        bad = originalLanguage == "ru" || productionCountries.any { it.countryCode == "RU" }
     )
 }
 
