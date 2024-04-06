@@ -49,7 +49,11 @@ class PreferencesRepositoryImpl(
 
     override fun selectYear(yearIndex: Int?) {
         _scope.launch {
-            (yearIndex ?: NO_YEAR_INDEX).let {
+            if (selectedYearIndexFlow.value == yearIndex) {
+                NO_YEAR_INDEX
+            } else {
+                yearIndex ?: NO_YEAR_INDEX
+            }.let {
                 _preferences.edit { putInt(SELECTED_YEAR_INDEX, it) }
                 selectedYearIndexFlow.emit(it)
             }
