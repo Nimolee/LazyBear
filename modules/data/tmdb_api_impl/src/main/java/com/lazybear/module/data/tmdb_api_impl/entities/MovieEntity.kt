@@ -25,6 +25,7 @@ data class MovieEntity(
     @SerializedName("original_language") val originalLanguage: String,
     @SerializedName("credits") val credits: CreditsEntity,
     @SerializedName("images") val images: ImagesEntity,
+    @SerializedName("videos") val videos: TrailersEntity,
 )
 
 private fun generateImageUrl(path: String): String {
@@ -50,7 +51,8 @@ fun MovieEntity.toDomain(): Movie {
         crew = credits.crew.map { it.toDomain() }
             .filter { crewMemberJobIndex(it) != -1 }
             .sortedBy { crewMemberJobIndex(it) },
-        backdrops = images.backdrops.map { it.toDomain() }
+        backdrops = images.backdrops.map { it.toDomain() },
+        trailers = videos.results.toDomain(),
     )
 }
 

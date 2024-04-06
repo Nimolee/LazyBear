@@ -6,4 +6,5 @@
     <string name="surprise_me_button">Surprise me</string>
     <string name="cast_title">Top Billed Cast:</string>
     <string name="backdrops_title">Backdrops:</string>
+    <string name="trailers_title">Trailers:</string>
 </resources>

@@ -13,6 +13,16 @@ android {
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "API_URL", "\"https://api.themoviedb.org/3/\"")
         buildConfigField("String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/original\"")
+        buildConfigField(
+            "String",
+            "YOUTUBE_IMAGE_URL",
+            "\"https://img.youtube.com/vi/<video_id>/0.jpg\""
+        )
+        buildConfigField(
+            "String",
+            "YOUTUBE_VIDEO_URL",
+            "\"https://www.youtube.com/watch?v=\""
+        )
     }
 
     buildTypes {

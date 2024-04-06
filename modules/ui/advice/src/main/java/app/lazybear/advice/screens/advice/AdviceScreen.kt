@@ -36,6 +36,7 @@ import app.lazybear.advice.components.MovieDescriptionBlock
 import app.lazybear.advice.components.MoviePosterBlock
 import app.lazybear.advice.components.MovieSectionTitleBlock
 import app.lazybear.advice.components.MovieTitleBlock
+import app.lazybear.advice.components.MovieTrailerBlock
 import app.lazybear.localization.Localization
 import org.koin.androidx.compose.koinViewModel
 
@@ -118,6 +119,9 @@ fun AdviceScreen(
                 }
                 item {
                     MovieCastBlock(cast = movie.cast)
+                }
+                item {
+                    MovieTrailerBlock(trailers = movie.trailers)
                 }
                 if (movie.backdrops.isNotEmpty()) {
                     item {
