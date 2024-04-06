@@ -21,4 +21,5 @@ data class Movie(
     val cast: List<CastMember>,
     val backdrops: List<MovieImage>,
     val trailers: List<MovieVideo>,
+    val watchProviders: List<WatchProvider>,
 )

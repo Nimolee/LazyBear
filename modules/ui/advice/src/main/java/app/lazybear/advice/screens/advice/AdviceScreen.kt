@@ -37,6 +37,7 @@ import app.lazybear.advice.components.MoviePosterBlock
 import app.lazybear.advice.components.MovieSectionTitleBlock
 import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.advice.components.MovieTrailerBlock
+import app.lazybear.advice.components.WatchProvidersBlock
 import app.lazybear.localization.Localization
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.min
@@ -117,6 +118,9 @@ fun AdviceScreen(
                 }
                 item {
                     MovieCrewBlock(crew = movie.crew)
+                }
+                item {
+                    WatchProvidersBlock(providers = movie.watchProviders)
                 }
                 item {
                     MovieCastBlock(cast = movie.cast)
