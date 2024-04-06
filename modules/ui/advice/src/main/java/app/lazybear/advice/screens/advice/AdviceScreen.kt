@@ -74,16 +74,14 @@ fun AdviceScreen(
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 OutlinedButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { viewModel.surprise() },
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(text = stringResource(id = Localization.surprise_me_button))
                 }
                 Spacer(modifier = Modifier.width(12.dp))
                 Button(
-                    onClick = {
-                        viewModel.shuffle()
-                    },
+                    onClick = { viewModel.shuffle() },
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(text = stringResource(id = Localization.shuffle_button))

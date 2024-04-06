@@ -18,6 +18,8 @@ class AdviceViewModelImpl(
     override val loadingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val movieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
 
+    private var surpriseAttempt: Int = 0
+
     init {
         shuffle()
     }
@@ -36,12 +38,29 @@ class AdviceViewModelImpl(
     }
 
     override fun surprise() {
-        TODO("Not yet implemented")
+        surpriseAttempt++
+        viewModelScope.launch {
+            loadingFlow.emit(true)
+            movieFlow.emit(null)
+            val years = _tmdbRepository.yearsFlow.first()
+            _tmdbRepository.recommendMovie(
+                emptyList(),
+                releaseYear = ReleaseYear(
+                    start = years[surpriseAttempt % years.size].start,
+                    end = years.first().end,
+                ),
+            ).onSuccess {
+                movieFlow.emit(it)
+            }.also {
+                loadingFlow.emit(false)
+            }
+        }
     }
 
     override fun shuffle() {
         viewModelScope.launch {
             loadingFlow.emit(true)
+            movieFlow.emit(null)
             _tmdbRepository.recommendMovie(
                 getSelectedGenres(),
                 getSelectedYear(),

@@ -11,7 +11,7 @@ data class Movie(
     val voteAverage: Float,
     val overview: String,
     val genres: List<Genre>,
-    val imdbId: String,
+    val imdbId: String?,
     val poster: String,
     val backdrop: String,
     val releaseDate: LocalDate,

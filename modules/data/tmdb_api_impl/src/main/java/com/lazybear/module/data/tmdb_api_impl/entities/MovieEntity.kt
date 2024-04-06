@@ -17,7 +17,7 @@ data class MovieEntity(
     @SerializedName("vote_average") val voteAverage: Float,
     @SerializedName("overview") val overview: String,
     @SerializedName("genres") val genres: ArrayList<GenreEntity>,
-    @SerializedName("imdb_id") val imdbId: String,
+    @SerializedName("imdb_id") val imdbId: String?,
     @SerializedName("poster_path") val poster: String,
     @SerializedName("backdrop_path") val backdrop: String,
     @SerializedName("release_date") val releaseDate: String,
