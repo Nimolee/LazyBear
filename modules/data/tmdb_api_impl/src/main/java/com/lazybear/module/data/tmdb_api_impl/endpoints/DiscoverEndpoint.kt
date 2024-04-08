@@ -9,8 +9,8 @@ interface DiscoverEndpoint {
     @GET("discover/movie")
     suspend fun getDiscoveredMovies(
         @Query("with_genres") genres: String,
-        @Query("release_date.gte") releaseDateAfter: String?,
-        @Query("release_date.lte") releaseDateBefore: String?,
+        @Query("primary_release_date.gte") releaseDateAfter: String?,
+        @Query("primary_release_date.lte") releaseDateBefore: String?,
         @Query("page") page: Int = 1,
         @Query("include_adult") adult: Boolean = true,
         @Query("watch_region") region: String = "UA",
