@@ -62,10 +62,12 @@ fun AdviceScreen(
                         end = 16.dp,
                     )
             ) {
+                val loadingState = viewModel.loadingFlow.collectAsState(false)
                 OutlinedButton(
                     onClick = { onPreferencesOpen() },
                     contentPadding = PaddingValues(0.dp),
-                    modifier = Modifier.size(40.dp)
+                    enabled = loadingState.value.not(),
+                    modifier = Modifier.size(40.dp),
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_profile_18),
@@ -75,6 +77,7 @@ fun AdviceScreen(
                 Spacer(modifier = Modifier.width(12.dp))
                 OutlinedButton(
                     onClick = { viewModel.surprise() },
+                    enabled = loadingState.value.not(),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(text = stringResource(id = Localization.surprise_me_button))
@@ -82,6 +85,7 @@ fun AdviceScreen(
                 Spacer(modifier = Modifier.width(12.dp))
                 Button(
                     onClick = { viewModel.shuffle() },
+                    enabled = loadingState.value.not(),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(text = stringResource(id = Localization.shuffle_button))
