@@ -10,6 +10,6 @@ interface MoviesEndpoint {
     @GET("movie/{movie_id}")
     suspend fun loadMovieDetails(
         @Path("movie_id") movieId: Int,
-        @Query("append_to_response") append: String = "videos,images,credits,watch/providers"
+        @Query("append_to_response") append: String = "videos,images,credits,watch/providers,release_dates"
     ): ServerResult<MovieEntity>
 }

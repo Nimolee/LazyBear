@@ -28,6 +28,7 @@ data class MovieEntity(
     @SerializedName("images") val images: ImagesEntity,
     @SerializedName("videos") val videos: TrailersEntity,
     @SerializedName("watch/providers") val watchProviders: WatchProvidersEntity,
+    @SerializedName("release_dates") val releaseDates: ReleaseDatesEntity,
 )
 
 private fun generateImageUrl(path: String): String {
@@ -49,6 +50,9 @@ fun MovieEntity.toDomain(): Movie {
         releaseDate = LocalDate.parse(releaseDate, DateTimeFormatter.ISO_LOCAL_DATE),
         duration = Duration.of(runtime.toLong(), ChronoUnit.MINUTES),
         originalLanguage = originalLanguage,
+        certification = releaseDates.results.firstOrNull { it.iso == "UA" }?.dates?.firstOrNull()?.certification
+            ?: releaseDates.results.firstOrNull { it.iso == "US" }?.dates?.firstOrNull()?.certification
+            ?: releaseDates.results.firstOrNull()?.dates?.firstOrNull()?.certification ?: "",
         cast = credits.cast.map { it.toDomain() },
         crew = credits.crew.map { it.toDomain() }
             .filter { crewMemberJobIndex(it) != -1 }
@@ -56,7 +60,7 @@ fun MovieEntity.toDomain(): Movie {
         backdrops = images.backdrops.map { it.toDomain() },
         trailers = videos.results.toDomain(),
         watchProviders = watchProviders.toDomain(),
-        bad = originalLanguage == "ru" || productionCountries.any { it.countryCode == "RU" }
+        bad = originalLanguage == "ru" || productionCountries.any { it.countryCode == "RU" },
     )
 }
 

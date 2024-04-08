@@ -24,7 +24,10 @@ fun MovieTitleBlock(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(vertical = 12.dp),
+        modifier = modifier.padding(
+            vertical = 12.dp,
+            horizontal = 16.dp,
+        ),
     ) {
         Text(
             title,
@@ -33,7 +36,7 @@ fun MovieTitleBlock(
             modifier = Modifier.fillMaxWidth(),
         )
         Text(
-            "$rating · $releaseYear · ${formatDuration(duration)}",
+            composeInfoString(rating, releaseYear, duration),
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
@@ -47,8 +50,20 @@ fun MovieTitleBlock(
     }
 }
 
+private fun composeInfoString(
+    rating: String,
+    releaseYear: String,
+    duration: Duration,
+    separator: String = " · ",
+): String {
+    return if (rating.isNotEmpty()) {
+        arrayOf(rating, releaseYear, formatDuration(duration))
+    } else {
+        arrayOf(releaseYear, formatDuration(duration))
+    }.joinToString(separator)
+}
 
-fun formatDuration(duration: Duration): String {
+private fun formatDuration(duration: Duration): String {
     val totalDuration = duration.toMinutes().toInt()
     val hours = totalDuration / (60)
     val minutes = totalDuration % 60

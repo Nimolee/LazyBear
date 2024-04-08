@@ -105,7 +105,7 @@ fun AdviceScreen(
                 item {
                     MovieTitleBlock(
                         title = movie.title,
-                        rating = "null",
+                        rating = movie.certification,
                         releaseYear = movie.releaseDate.year.toString(),
                         duration = movie.duration,
                         genres = movie.genres,
