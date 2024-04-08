@@ -150,7 +150,11 @@ fun AdviceScreen(
                     MovieCrewBlock(crew = movie.crew)
                 }
                 item {
-                    WatchProvidersBlock(providers = movie.watchProviders)
+                    WatchProvidersBlock(
+                        providers = movie.watchProviders,
+                        movieTitle = movie.title,
+                        releaseYear = movie.releaseDate.year,
+                    )
                 }
                 item {
                     MovieCastBlock(cast = movie.cast)

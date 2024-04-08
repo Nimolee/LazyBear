@@ -2,6 +2,7 @@ package com.lazybear.module.data.tmdb_api_impl.entities
 
 import app.lazybear.module.data.tmdb_api_impl.BuildConfig
 import com.google.gson.annotations.SerializedName
+import com.lazybear.module.data.tmdb_api.entities.Provider
 import com.lazybear.module.data.tmdb_api.entities.WatchProvider
 
 data class WatchProvidersEntity(
@@ -22,31 +23,49 @@ data class ProviderEntity(
 
 fun WatchProvidersEntity.toDomain(): List<WatchProvider> {
     val providers = mutableListOf<WatchProvider>()
-    if (!results.containsKey("UA")) return emptyList()
-    results["UA"]?.buyProviders?.forEach { provider ->
-        providers.add(
-            WatchProvider(
-                id = provider.providerId,
-                name = provider.name,
-                logoLink = "${BuildConfig.IMAGE_URL}${provider.logoPath}",
-                allowBuy = true,
-                allowRent = results["UA"]?.rentProviders?.any { it.providerId == provider.providerId }
-                    ?: false
-            ),
-        )
-    }
-    results["UA"]?.rentProviders?.forEach { provider ->
-        if (providers.none { it.id == provider.providerId }) {
+    results["UA"]?.buyProviders?.forEach { providerEntity ->
+        providerFromId(providerEntity.providerId)?.let { provider ->
             providers.add(
                 WatchProvider(
-                    id = provider.providerId,
-                    name = provider.name,
-                    logoLink = "${BuildConfig.IMAGE_URL}${provider.logoPath}",
-                    allowBuy = false,
-                    allowRent = true,
-                )
+                    id = providerEntity.providerId,
+                    provider = provider,
+                    name = providerEntity.name,
+                    logoLink = "${BuildConfig.IMAGE_URL}${providerEntity.logoPath}",
+                    allowBuy = true,
+                    allowRent = results["UA"]?.rentProviders?.any { it.providerId == providerEntity.providerId }
+                        ?: false
+                ),
             )
         }
     }
+    results["UA"]?.rentProviders?.forEach { providerEntity ->
+        if (providers.none { it.id == providerEntity.providerId }) {
+            providerFromId(providerEntity.providerId)?.let { provider ->
+                providers.add(
+                    WatchProvider(
+                        id = providerEntity.providerId,
+                        provider = provider,
+                        name = providerEntity.name,
+                        logoLink = "${BuildConfig.IMAGE_URL}${providerEntity.logoPath}",
+                        allowBuy = false,
+                        allowRent = true,
+                    )
+                )
+            }
+        }
+    }
     return providers.sortedBy { it.id }
+}
+
+private fun providerFromId(id: Int): Provider? {
+    return when (id) {
+        2 -> Provider.AppleTV
+        3 -> Provider.GooglePlayMovies
+        8 -> Provider.Netflix
+        35 -> Provider.RakutenTV
+        192 -> Provider.YouTube
+        283 -> Provider.Crunchyroll
+        384 -> Provider.HBOMax
+        else -> null
+    }
 }

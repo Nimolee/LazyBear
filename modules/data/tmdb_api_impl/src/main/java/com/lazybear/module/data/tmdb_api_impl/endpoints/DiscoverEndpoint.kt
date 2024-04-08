@@ -14,6 +14,6 @@ interface DiscoverEndpoint {
         @Query("page") page: Int = 1,
         @Query("include_adult") adult: Boolean = true,
         @Query("watch_region") region: String = "UA",
-        @Query("with_watch_providers") providers: String = "2|3|8|192|283|384" //2 - Apple TV, 3 - Google Play Movies, 8 -Netflix, 192 - YouTube, 283 - Crunchyroll, 384 -HBO Max,
+        @Query("with_watch_providers") providers: String = "2|3|8|35|192|283|384" //2 - Apple TV, 3 - Google Play Movies, 8 -Netflix, 35- RakutenTV, 192 - YouTube, 283 - Crunchyroll, 384 -HBO Max,
     ): ServerResult<MovieDiscoverEntity>
 }
