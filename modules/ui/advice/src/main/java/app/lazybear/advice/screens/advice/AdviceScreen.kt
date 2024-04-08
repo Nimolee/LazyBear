@@ -35,6 +35,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,7 @@ import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.advice.components.MovieTrailerBlock
 import app.lazybear.advice.components.WatchProvidersBlock
 import app.lazybear.localization.Localization
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.min
 
@@ -64,6 +66,7 @@ fun AdviceScreen(
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val listState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         bottomBar = {
@@ -103,7 +106,10 @@ fun AdviceScreen(
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     OutlinedButton(
-                        onClick = { viewModel.surprise() },
+                        onClick = {
+                            viewModel.surprise()
+                            scope.launch { listState.scrollToItem(0) }
+                        },
                         enabled = loadingState.value.not(),
                         modifier = Modifier.weight(1f)
                     ) {
@@ -111,7 +117,10 @@ fun AdviceScreen(
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Button(
-                        onClick = { viewModel.shuffle() },
+                        onClick = {
+                            viewModel.shuffle()
+                            scope.launch { listState.scrollToItem(0) }
+                        },
                         enabled = loadingState.value.not(),
                         modifier = Modifier.weight(1f)
                     ) {
