@@ -11,4 +11,5 @@
     <string name="more_backdrops_button">More Backdrops</string>
     <string name="available_on_title">Available on:</string>
     <string name="search_hint">Search</string>
+    <string name="keywords_title">Keywords:</string>
 </resources>

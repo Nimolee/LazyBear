@@ -24,4 +24,5 @@ data class Movie(
     val trailers: List<MovieVideo>,
     val watchProviders: List<WatchProvider>,
     val bad: Boolean,
+    val keywords: List<Keyword>,
 )

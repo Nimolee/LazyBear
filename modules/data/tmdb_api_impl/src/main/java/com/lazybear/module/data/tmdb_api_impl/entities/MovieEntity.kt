@@ -29,6 +29,7 @@ data class MovieEntity(
     @SerializedName("videos") val videos: TrailersEntity,
     @SerializedName("watch/providers") val watchProviders: WatchProvidersEntity,
     @SerializedName("release_dates") val releaseDates: ReleaseDatesEntity,
+    @SerializedName("keywords") val keywords: KeywordsEntity,
 )
 
 private fun generateImageUrl(path: String): String {
@@ -60,6 +61,7 @@ fun MovieEntity.toDomain(): Movie {
         backdrops = images.backdrops.map { it.toDomain() },
         trailers = videos.results.toDomain(),
         watchProviders = watchProviders.toDomain(),
+        keywords = keywords.keywords.map { it.toDomain() },
         bad = originalLanguage == "ru" || productionCountries.any { it.countryCode == "RU" },
     )
 }

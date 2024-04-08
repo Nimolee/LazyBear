@@ -46,6 +46,7 @@ import app.lazybear.advice.components.MovieBackdropBlock
 import app.lazybear.advice.components.MovieCastBlock
 import app.lazybear.advice.components.MovieCrewBlock
 import app.lazybear.advice.components.MovieDescriptionBlock
+import app.lazybear.advice.components.MovieKeywordsBlock
 import app.lazybear.advice.components.MoviePosterBlock
 import app.lazybear.advice.components.MovieSectionTitleBlock
 import app.lazybear.advice.components.MovieTitleBlock
@@ -188,6 +189,7 @@ fun AdviceScreen(
                         }
                     }
                 }
+                item { MovieKeywordsBlock(keywords = movie.keywords) }
             }
         }
         val loadingState = viewModel.loadingFlow.collectAsState(false)
