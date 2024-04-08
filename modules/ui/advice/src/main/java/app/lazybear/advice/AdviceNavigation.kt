@@ -33,7 +33,10 @@ fun NavGraphBuilder.adviceNavigation(
             arguments = PreferencesArguments.arguments,
         ) {
             ChooseScreen(
-                arguments = PreferencesArguments.fromBackStack(it)
+                arguments = PreferencesArguments.fromBackStack(it),
+                onClose = {
+                    navController.popBackStack()
+                },
             )
         }
     }

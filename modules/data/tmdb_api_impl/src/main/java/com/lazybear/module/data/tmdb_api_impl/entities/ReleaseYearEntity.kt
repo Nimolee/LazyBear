@@ -18,9 +18,17 @@ data class ReleaseYearEntity(
          */
         fun getYears(): List<ReleaseYearEntity> {
             val releaseYears = mutableListOf<ReleaseYearEntity>()
-            var startDate = LocalDateTime.of(1970, 1, 1, 0, 0)
+            var startDate = LocalDateTime.of(1900, 1, 1, 0, 0)
             var endDate = startDate
             val now = LocalDateTime.now()
+            //80-s and prior
+            releaseYears.add(
+                ReleaseYearEntity(
+                    start = startDate.withYear(1900),
+                    end = startDate.withYear(1980)
+                )
+            )
+            startDate = startDate.withYear(1980)
             //Compose decades to now
             while (startDate.isBefore(now)) {
                 endDate = startDate.plusYears(DECADE_DURATION)
@@ -31,7 +39,7 @@ data class ReleaseYearEntity(
                     0,
                     ReleaseYearEntity(
                         start = startDate,
-                        end = endDate.minusSeconds(1),
+                        end = endDate,
                     )
                 )
                 startDate = startDate.plusYears(DECADE_DURATION)
@@ -40,7 +48,7 @@ data class ReleaseYearEntity(
             releaseYears.add(
                 0, ReleaseYearEntity(
                     start = endDate.minusYears(2),
-                    end = endDate.minusSeconds(1),
+                    end = endDate,
                 )
             )
             return releaseYears

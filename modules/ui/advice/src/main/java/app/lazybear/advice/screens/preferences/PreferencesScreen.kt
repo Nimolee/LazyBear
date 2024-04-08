@@ -32,6 +32,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ChooseScreen(
     arguments: PreferencesArguments,
+    onClose: () -> Unit,
     viewModel: PreferencesViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
@@ -43,7 +44,7 @@ fun ChooseScreen(
                     .padding(bottom = bottomInset)
             ) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { onClose() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -139,10 +140,10 @@ fun ChooseScreen(
                             } else null,
                             label = {
                                 Text(
-                                    if (index == 0) {
-                                        stringResource(id = Localization.last_two_years)
-                                    } else {
-                                        "${year.start.year}-${year.end.year + 1}"
+                                    when (index) {
+                                        0 -> stringResource(id = Localization.last_two_years)
+                                        yearsState.value.size - 1 -> stringResource(id = Localization.until_80s)
+                                        else -> "${year.start.year}-${year.end.year}"
                                     }
                                 )
                             },
