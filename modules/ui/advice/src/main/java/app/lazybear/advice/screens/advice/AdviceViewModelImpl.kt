@@ -9,7 +9,6 @@ import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class AdviceViewModelImpl(
@@ -30,7 +29,7 @@ class AdviceViewModelImpl(
     }
 
     private suspend fun getSelectedGenres(): List<Genre> {
-        val all = _tmdbRepository.genresFlow.first()
+        val all = _tmdbRepository.genresFlow.value
         val selectedIds = _preferencesRepository.selectedGenresIdsFlow.value
         return all.filter { selectedIds.contains(it.id) }
     }
@@ -38,7 +37,7 @@ class AdviceViewModelImpl(
     private suspend fun getSelectedYear(): ReleaseYear? {
         val selectedIndex = _preferencesRepository.selectedYearIndexFlow.value
         return selectedIndex?.let {
-            _tmdbRepository.yearsFlow.first()[it]
+            _tmdbRepository.yearsFlow.value[it]
         }
     }
 
@@ -47,7 +46,7 @@ class AdviceViewModelImpl(
         viewModelScope.launch {
             loadingFlow.emit(true)
             movieFlow.emit(null)
-            val years = _tmdbRepository.yearsFlow.first()
+            val years = _tmdbRepository.yearsFlow.value
             _tmdbRepository.recommendMovie(
                 emptyList(),
                 releaseYear = ReleaseYear(
