@@ -1,8 +1,9 @@
 package app.lazybear
 
 import android.app.Application
-import app.lazybear.advice.adviceModule
 import app.lazybear.module.data.preferences_impl.preferencesModule
+import app.lazybear.module.ui.advice.adviceModule
+import app.lazybear.module.ui.settings.settingsModule
 import com.lazybear.module.data.tmdb_api_impl.tmdbModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,10 +22,13 @@ class LazyApp : Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.DEBUG else Level.NONE)
             androidContext(applicationContext)
             modules(
+                //Data modules
                 preferencesModule(TOKEN_FLOW_NAME),
                 tmdbModule(TOKEN_FLOW_NAME, BuildConfig.TMDB_API_KEY),
+                //UI modules
                 mainModule(),
                 adviceModule(),
+                settingsModule(),
             )
         }
     }

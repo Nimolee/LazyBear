@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "app.lazybear.module.ui.advice"
+    namespace = "app.lazybear.module.ui.settings"
     compileSdk = 34
 
     defaultConfig {
@@ -51,7 +51,6 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.material3)
-    implementation(libs.glide)
     implementation(libs.bundles.koin)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.tooling.preview)
