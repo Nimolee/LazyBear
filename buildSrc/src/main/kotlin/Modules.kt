@@ -14,5 +14,6 @@ object Modules {
 
     object UI {
         const val ADVICE = ":modules:ui:advice"
+        const val COMPONENTS = ":modules:ui:components"
     }
 }

@@ -54,6 +54,8 @@ import app.lazybear.advice.components.MovieTitleBlock
 import app.lazybear.advice.components.MovieTrailerBlock
 import app.lazybear.advice.components.WatchProvidersBlock
 import app.lazybear.localization.Localization
+import app.lazybear.module.ui.components.dialogs.ErrorDialog
+import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.min
@@ -201,6 +203,7 @@ fun AdviceScreen(
                 item { MovieKeywordsBlock(keywords = movie.keywords) }
             }
         }
+
         val loadingState = viewModel.loadingFlow.collectAsState(false)
         if (loadingState.value) {
             Box(
@@ -209,6 +212,28 @@ fun AdviceScreen(
             ) {
                 CircularProgressIndicator()
             }
+        }
+
+        val networkErrorState = viewModel.networkErrorFlow.collectAsState(initial = false)
+        if (networkErrorState.value) {
+            NetworkErrorDialog(
+                onDismiss = viewModel::resetErrors,
+                onTryAgain = viewModel::tryAgain,
+            )
+        }
+        val unknownErrorState = viewModel.unknownErrorFlow.collectAsState(initial = false)
+        if (unknownErrorState.value) {
+            ErrorDialog(
+                message = stringResource(id = Localization.unknown_error_message),
+                onDismiss = viewModel::resetErrors,
+            )
+        }
+        val noResultsErrorState = viewModel.noResultsErrorFlow.collectAsState(initial = false)
+        if (noResultsErrorState.value) {
+            ErrorDialog(
+                message = stringResource(id = Localization.no_results_error_message),
+                onDismiss = viewModel::resetErrors,
+            )
         }
     }
 }

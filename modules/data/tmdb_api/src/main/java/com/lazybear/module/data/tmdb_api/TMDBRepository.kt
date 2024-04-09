@@ -1,21 +1,23 @@
 package com.lazybear.module.data.tmdb_api
 
-import app.lazybear.module.data.server.ServerResult
+import app.lazybear.module.data.server.Result
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
-import kotlinx.coroutines.flow.StateFlow
+import com.lazybear.module.data.tmdb_api.errors.GenresErrors
+import com.lazybear.module.data.tmdb_api.errors.MovieError
+import kotlinx.coroutines.flow.Flow
 
 interface TMDBRepository {
-    val genresFlow: StateFlow<List<Genre>>
-    val yearsFlow: StateFlow<List<ReleaseYear>>
+    val genresFlow: Flow<List<Genre>>
+    val yearsFlow: Flow<List<ReleaseYear>>
 
-    suspend fun loadGenres(force: Boolean = false): ServerResult<List<Genre>>
+    suspend fun loadGenres(force: Boolean = false): Result<List<Genre>, GenresErrors>
+
+    suspend fun getYears(): List<ReleaseYear>
 
     suspend fun recommendMovie(
         genres: List<Genre>,
         releaseYear: ReleaseYear? = null
-    ): ServerResult<Movie>
-
-    suspend fun loadMovie(movieId: Int): ServerResult<Movie>
+    ): Result<Movie, MovieError>
 }

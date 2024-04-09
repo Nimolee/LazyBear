@@ -12,4 +12,12 @@
     <string name="available_on_title">Available on:</string>
     <string name="search_hint">Search</string>
     <string name="keywords_title">Keywords:</string>
+    <string name="network_error_title">Network error</string>
+    <string name="network_error_message">Please check internet connection and try again</string>
+    <string name="try_again_button">Try again</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="ok_button">OK</string>
+    <string name="error_title">Error</string>
+    <string name="unknown_error_message">Something went wrong, please, try again.</string>
+    <string name="no_results_error_message">There no movie for your filters. Please, update preferences to found new movies.</string>
 </resources>

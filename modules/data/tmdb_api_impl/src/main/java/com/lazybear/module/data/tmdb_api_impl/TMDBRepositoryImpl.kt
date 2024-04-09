@@ -1,15 +1,19 @@
 package com.lazybear.module.data.tmdb_api_impl
 
+import app.lazybear.module.data.server.Result
 import app.lazybear.module.data.server.ServerResult
 import app.lazybear.module.data.server.dropNull
 import app.lazybear.module.data.server.map
 import app.lazybear.module.data.server.mergeErrors
 import app.lazybear.module.data.server.onSuccess
+import app.lazybear.module.data.server.toResult
 import app.lazybear.module.utils.log.logD
 import com.lazybear.module.data.tmdb_api.TMDBRepository
 import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
+import com.lazybear.module.data.tmdb_api.errors.GenresErrors
+import com.lazybear.module.data.tmdb_api.errors.MovieError
 import com.lazybear.module.data.tmdb_api_impl.endpoints.DiscoverEndpoint
 import com.lazybear.module.data.tmdb_api_impl.endpoints.GenresEndpoint
 import com.lazybear.module.data.tmdb_api_impl.endpoints.MoviesEndpoint
@@ -33,42 +37,48 @@ class TMDBRepositoryImpl(
         const val TAG = "TMDBRepositoryImpl"
         const val ITEMS_PER_PAGE_IN_DISCOVER = 20
         const val MAX_PAGES_COUNT = 500
+        const val ERROR_CODE_NO_MOVIE = -404
     }
 
     override val genresFlow: MutableStateFlow<List<Genre>> = MutableStateFlow(emptyList())
     override val yearsFlow: MutableStateFlow<List<ReleaseYear>> =
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
 
-    override suspend fun loadGenres(force: Boolean): ServerResult<List<Genre>> {
+    override suspend fun loadGenres(force: Boolean): Result<List<Genre>, GenresErrors> {
         return _scope.async {
             if (!force && genresFlow.value.isNotEmpty()) {
                 ServerResult.Success(genresFlow.value)
             } else {
                 val result = _genresEndpoints.getMoviesGenres()
-                if (result.isSuccess) {
-                    result as ServerResult.Success
-                    result.body?.let {
+                result.dropNull().map {
+                    result.body!!.let {
                         val genres = it.toDomain()
                         genresFlow.emit(genres)
-                        ServerResult.Success(genres)
-                    } ?: ServerResult.UnknownError
-                } else {
-                    result as ServerResult.Error
-                    result
-                }
-            }
+                        genres
+                    }
+                }.dropNull()
+            }.toResult(
+                errorMapper = { GenresErrors.UnknownError },
+                networkErrorMapper = { GenresErrors.NetworkError },
+                unknownErrorMapper = { GenresErrors.UnknownError }
+            )
         }.await()
+    }
+
+    override suspend fun getYears(): List<ReleaseYear> {
+        return yearsFlow.value
     }
 
     override suspend fun recommendMovie(
         genres: List<Genre>,
         releaseYear: ReleaseYear?,
-    ): ServerResult<Movie> {
+    ): Result<Movie, MovieError> {
         logD(TAG, "recommendMovie") { "Start movie recommendation" }
         val releaseDateAfter = releaseYear?.start?.let { ISO_DATE.format(it) }
         val releaseDateBefore = releaseYear?.end?.let { ISO_DATE.format(it) }
+        val genresString = genres.joinToString(",") { it.id.toString() }
+
         return _scope.async {
-            val genresString = genres.joinToString(",") { it.id.toString() }
             val result = _discoverEndpoints.getDiscoveredMovies(
                 genres = genresString,
                 releaseDateBefore = releaseDateBefore,
@@ -77,29 +87,46 @@ class TMDBRepositoryImpl(
             logD(TAG, "recommendMovie") { "$result with $genres" }
             result.map { body ->
                 val totalResults = body!!.totalResults
-                val movie = Random.nextInt(totalResults)
+                if (totalResults == 0) return@map ServerResult.Error(ERROR_CODE_NO_MOVIE, "")
+
+                val movieIndex = Random.nextInt(totalResults)
                 val page = min(
-                    movie / ITEMS_PER_PAGE_IN_DISCOVER + 1,// Pages start from 1
-                    MAX_PAGES_COUNT
+                    movieIndex / ITEMS_PER_PAGE_IN_DISCOVER + 1 // Pages start from 1
+                    , MAX_PAGES_COUNT
                 )
-                val idResult = _discoverEndpoints.getDiscoveredMovies(
+                _discoverEndpoints.getDiscoveredMovies(
                     genres = genresString,
                     releaseDateBefore = releaseDateBefore,
                     releaseDateAfter = releaseDateAfter,
                     page = page,
-                )
-                idResult.map { idBody ->
-                    val movieId = idBody!!.results[movie % ITEMS_PER_PAGE_IN_DISCOVER].id
+                ).map { idBody ->
+                    val movieId = idBody!!.results[movieIndex % ITEMS_PER_PAGE_IN_DISCOVER].id
                     logD(TAG, "recommendMovie") { "Selected movie = $movieId" }
                     movieId
                 }
             }.mergeErrors().dropNull().map { id ->
                 loadMovie(id!!)
-            }.mergeErrors().dropNull()
+            }.mergeErrors().dropNull().toResult(
+                errorMapper = {
+                    when (it.code) {
+                        ERROR_CODE_NO_MOVIE -> MovieError.NoResults
+                        else -> MovieError.UnknownError
+                    }
+                },
+                networkErrorMapper = { MovieError.NetworkError },
+                unknownErrorMapper = { MovieError.UnknownError },
+            ).let {
+                if (it.isSuccess && it.body?.bad == true) {
+                    logD(TAG, "recommendMovie") { "Bad movie found. Try again." }
+                    recommendMovie(genres, releaseYear)
+                } else {
+                    it
+                }
+            }
         }.await()
     }
 
-    override suspend fun loadMovie(movieId: Int): ServerResult<Movie> {
+    private suspend fun loadMovie(movieId: Int): ServerResult<Movie> {
         return _scope.async {
             _movieEndpoints.loadMovieDetails(movieId).map {
                 it?.toDomain()

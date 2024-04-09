@@ -126,3 +126,16 @@ fun <T> ServerResult<T?>.dropNull(): ServerResult<T> {
         ServerResult.UnknownError -> ServerResult.UnknownError
     }
 }
+
+fun <T, E> ServerResult<T>.toResult(
+    errorMapper: (ServerResult.Error) -> E,
+    networkErrorMapper: () -> E,
+    unknownErrorMapper: () -> E,
+): Result<T, E> {
+    return when (this) {
+        is ServerResult.Error -> Result(null, errorMapper(this))
+        ServerResult.NetworkError -> Result(null, networkErrorMapper())
+        is ServerResult.Success -> Result(this.body!!, null)
+        ServerResult.UnknownError -> Result(null, unknownErrorMapper())
+    }
+}
