@@ -19,15 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.lazybear.module.ui.advice.R
 import app.lazybear.localization.Localization
+import app.lazybear.module.ui.advice.R
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.lazybear.module.data.tmdb_api.entities.Provider
 import com.lazybear.module.data.tmdb_api.entities.Provider.AppleTV
 import com.lazybear.module.data.tmdb_api.entities.Provider.Crunchyroll
@@ -65,31 +65,29 @@ fun WatchProvidersBlock(
             modifier = Modifier.fillMaxWidth(),
         ) {
             item {
-                Box(
-                    modifier = Modifier
-                        .size(64.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            context.startActivity(
-                                Intent(
-                                    ACTION_VIEW,
-                                    Uri.parse("https://www.google.com/search?q=$movieTitle+$releaseYear")
-                                )
+                Box(modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        context.startActivity(
+                            Intent(
+                                ACTION_VIEW,
+                                Uri.parse("https://www.google.com/search?q=$movieTitle+$releaseYear")
                             )
-                        }
-                ) {
+                        )
+                    }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = stringResource(id = Localization.search_hint),
                         modifier = Modifier
-                            .background(MaterialTheme.colorScheme.onBackground)
+                            .background(Color.White)
                             .padding(12.dp)
                     )
                 }
             }
             items(providers.size) { index ->
-                GlideImage(
-                    model = providers[index].logoLink,
+                Image(
+                    painter = painterResource(id = getIconForProvider(providers[index].provider)),
                     contentDescription = providers[index].name,
                     modifier = Modifier
                         .padding(start = 16.dp)
@@ -98,17 +96,28 @@ fun WatchProvidersBlock(
                         .clickable {
                             context.startActivity(
                                 Intent(
-                                    ACTION_VIEW,
-                                    getUriForProvider(
+                                    ACTION_VIEW, getUriForProvider(
                                         providers[index].provider,
                                         movieTitle,
                                     )
                                 )
                             )
-                        }
+                        },
                 )
             }
         }
+    }
+}
+
+private fun getIconForProvider(provider: Provider): Int {
+    return when (provider) {
+        AppleTV -> R.drawable.ic_apple_tv
+        GooglePlayMovies -> R.drawable.ic_google_play
+        Netflix -> R.drawable.ic_netflix
+        RakutenTV -> R.drawable.ic_rakuten_tv
+        YouTube -> R.drawable.ic_youtube
+        Crunchyroll -> R.drawable.ic_crunchyroll
+        HBOMax -> R.drawable.ic_hbo_max
     }
 }
 

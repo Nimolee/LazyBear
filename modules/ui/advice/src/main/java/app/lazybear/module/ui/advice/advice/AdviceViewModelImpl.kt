@@ -86,17 +86,16 @@ class AdviceViewModelImpl(
         viewModelScope.launch {
             loadingFlow.emit(true)
             movieFlow.emit(null)
-            _surpriseAttempt++
 
             val years = _tmdbRepository.getYears()
             recommendMovie(
-                emptyList(),
+                genres = emptyList(),
                 year = ReleaseYear(
                     start = years[_surpriseAttempt % years.size].start,
                     end = years.first().end,
                 ),
-            ).onError {
-                _surpriseAttempt--
+            ).onSuccess {
+                _surpriseAttempt++
             }
         }
     }

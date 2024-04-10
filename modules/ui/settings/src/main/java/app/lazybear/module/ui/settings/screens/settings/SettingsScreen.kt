@@ -1,6 +1,7 @@
 package app.lazybear.module.ui.settings.screens.settings
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import app.lazybear.localization.Localization
 import app.lazybear.module.ui.settings.R
+import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -41,6 +43,7 @@ fun SettingsScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(bottom = bottomInset)
             ) {
                 Button(

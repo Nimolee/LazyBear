@@ -55,7 +55,7 @@ class PreferencesRepositoryImpl(
                 yearIndex ?: NO_YEAR_INDEX
             }.let {
                 _preferences.edit { putInt(SELECTED_YEAR_INDEX, it) }
-                selectedYearIndexFlow.emit(it)
+                selectedYearIndexFlow.emit(if (it == NO_YEAR_INDEX) null else it)
             }
         }
     }
