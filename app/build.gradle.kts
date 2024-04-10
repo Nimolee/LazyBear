@@ -10,6 +10,9 @@ plugins {
 val keysProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, "app/config/keys.properties")))
 }
+val keystoreProperties = Properties().apply {
+    load(FileInputStream(File(rootProject.rootDir, "app/config/keystore.properties")))
+}
 
 android {
     namespace = "app.lazybear"
@@ -32,7 +35,14 @@ android {
             "\"${keysProperties.getProperty("tmdb_api_key")}\""
         )
     }
-
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties.getProperty("keyAlias") as String
+            keyPassword = keystoreProperties.getProperty("keyPassword") as String
+            storeFile = file(keystoreProperties.getProperty("storeFile"))
+            storePassword = keystoreProperties.getProperty("storePassword") as String
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -40,6 +50,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     flavorDimensions += "environment"
