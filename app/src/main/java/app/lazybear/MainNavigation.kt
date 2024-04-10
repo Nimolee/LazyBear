@@ -6,8 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import app.lazybear.module.ui.advice.adviceNavigation
+import app.lazybear.module.ui.navigation.NavResult
 import app.lazybear.module.ui.settings.settingsNavigation
-import kotlinx.coroutines.channels.Channel
 
 private const val ADVICE_ROUTE = "advice_module"
 private const val SETTINGS_ROUTE = "settings_module"
@@ -17,7 +17,8 @@ fun MainNavigation(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
-    val preferencesResultChannel = Channel<Boolean>()
+    val settingsNavResult = NavResult<Boolean>()
+
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -26,17 +27,15 @@ fun MainNavigation(
         adviceNavigation(
             route = ADVICE_ROUTE,
             navController = navController,
-            onPreferencesOpen = {
-                navController.navigate(SETTINGS_ROUTE)
-                preferencesResultChannel.receive()
-            }
+            onSettingsOpen = { navController.navigate(SETTINGS_ROUTE) },
+            settingsNavResult = settingsNavResult,
         )
         settingsNavigation(
             route = SETTINGS_ROUTE,
             navController = navController,
             onClose = { shuffle ->
                 navController.popBackStack(SETTINGS_ROUTE, inclusive = true)
-                preferencesResultChannel.trySend(shuffle)
+                settingsNavResult.trySend(shuffle)
             }
         )
     }

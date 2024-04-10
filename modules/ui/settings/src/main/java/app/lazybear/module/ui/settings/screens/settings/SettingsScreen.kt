@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import app.lazybear.localization.Localization
+import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.settings.R
 import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import org.koin.androidx.compose.koinViewModel

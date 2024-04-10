@@ -42,8 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
-import app.lazybear.localization.Localization
 import app.lazybear.module.ui.advice.R
 import app.lazybear.module.ui.advice.components.MovieBackdropBlock
 import app.lazybear.module.ui.advice.components.MovieCastBlock
@@ -57,7 +55,9 @@ import app.lazybear.module.ui.advice.components.MovieTrailerBlock
 import app.lazybear.module.ui.advice.components.WatchProvidersBlock
 import app.lazybear.module.ui.components.dialogs.ErrorDialog
 import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
-import kotlinx.coroutines.channels.Channel
+import app.lazybear.module.ui.localization.Localization
+import app.lazybear.module.ui.navigation.NavResult
+import app.lazybear.module.ui.navigation.NavResultHandler
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.min
@@ -65,15 +65,17 @@ import kotlin.math.min
 @Composable
 fun AdviceScreen(
     arguments: AdviceArguments,
-    onPreferencesOpen: suspend () -> Boolean,
-
+    onSettingsOpen: () -> Unit,
+    settingsNavResult: NavResult<Boolean>,
     viewModel: AdviceViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
-    val channel = Channel<Boolean>()
 
+    NavResultHandler(settingsNavResult) { result ->
+        if (result) viewModel.shuffle()
+    }
 
     Scaffold(
         bottomBar = {
@@ -101,14 +103,7 @@ fun AdviceScreen(
                 ) {
                     val loadingState = viewModel.loadingFlow.collectAsState(false)
                     OutlinedButton(
-                        onClick = {
-                            viewModel.viewModelScope.launch {
-                                val result = onPreferencesOpen()
-                                if (result) {
-                                    viewModel.shuffle()
-                                }
-                            }
-                        },
+                        onClick = { onSettingsOpen() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
                         modifier = Modifier.size(40.dp),

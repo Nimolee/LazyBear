@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "app.lazybear.localization"
+    namespace = "app.lazybear.module.ui.localization"
     compileSdk = 34
 
     defaultConfig {

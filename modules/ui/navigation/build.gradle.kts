@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "app.lazybear.module.ui.components"
+    namespace = "app.lazybear.module.ui.navigation"
     compileSdk = 34
 
     defaultConfig {
@@ -23,15 +23,15 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     buildFeatures {
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -39,11 +39,17 @@ android {
 }
 
 dependencies {
+    implementation(project(Modules.Data.SERVER))
+    implementation(project(Modules.Data.TMDB_API))
+    implementation(project(Modules.Data.PREFERENCES))
+    implementation(project(Modules.UI.COMPONENTS))
     implementation(project(Modules.UI.LOCALIZATION))
+    implementation(project(Modules.Utils.LOG))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.navigation)
     implementation(libs.androidx.material3)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.tooling.preview)

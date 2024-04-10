@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.lazybear.localization.Localization
+import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.advice.R
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.lazybear.module.data.tmdb_api.entities.Provider

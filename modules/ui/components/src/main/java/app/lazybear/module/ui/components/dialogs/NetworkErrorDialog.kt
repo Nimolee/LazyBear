@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import app.lazybear.localization.Localization
+import app.lazybear.module.ui.localization.Localization
 
 @Composable
 fun NetworkErrorDialog(

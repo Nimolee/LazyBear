@@ -72,16 +72,14 @@ class AdviceViewModelImpl(
         genres: List<Genre>,
         year: ReleaseYear?,
     ): Result<Movie, MovieError> {
-        return _tmdbRepository.recommendMovie(genres, year).onSuccess {
-            movieFlow.emit(it)
-            loadingFlow.emit(false)
-        }.onError {
-            _errorsFlow.emit(it)
-            loadingFlow.emit(false)
-        }
+        return _tmdbRepository.recommendMovie(genres, year)
+            .onSuccess { movieFlow.emit(it) }
+            .onError { _errorsFlow.emit(it) }
+            .also { loadingFlow.emit(false) }
     }
 
     override fun surprise() {
+        if (loadingFlow.value) return
         _retryAction = RetryAction.SURPRISE
         viewModelScope.launch {
             loadingFlow.emit(true)
@@ -101,6 +99,7 @@ class AdviceViewModelImpl(
     }
 
     override fun shuffle() {
+        if (loadingFlow.value) return
         _retryAction = RetryAction.SHUFFLE
         viewModelScope.launch {
             loadingFlow.emit(true)

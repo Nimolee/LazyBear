@@ -9,12 +9,13 @@ object Modules {
 
     object Utils {
         const val LOG = ":modules:utils:log"
-        const val LOCALIZATION = ":modules:utils:localization"
     }
 
     object UI {
         const val ADVICE = ":modules:ui:advice"
         const val SETTINGS = ":modules:ui:settings"
         const val COMPONENTS = ":modules:ui:components"
+        const val LOCALIZATION = ":modules:ui:localization"
+        const val NAVIGATION = ":modules:ui:navigation"
     }
 }

@@ -43,8 +43,9 @@ dependencies {
     implementation(project(Modules.Data.TMDB_API))
     implementation(project(Modules.Data.PREFERENCES))
     implementation(project(Modules.UI.COMPONENTS))
+    implementation(project(Modules.UI.NAVIGATION))
+    implementation(project(Modules.UI.LOCALIZATION))
     implementation(project(Modules.Utils.LOG))
-    implementation(project(Modules.Utils.LOCALIZATION))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

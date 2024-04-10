@@ -6,11 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import app.lazybear.module.ui.advice.advice.AdviceArguments
 import app.lazybear.module.ui.advice.advice.AdviceScreen
+import app.lazybear.module.ui.navigation.NavResult
 
 fun NavGraphBuilder.adviceNavigation(
     route: String,
     navController: NavHostController,
-    onPreferencesOpen: suspend () -> Boolean,
+    onSettingsOpen: () -> Unit,
+    settingsNavResult: NavResult<Boolean>,
 ) {
     navigation(
         route = route,
@@ -22,7 +24,8 @@ fun NavGraphBuilder.adviceNavigation(
         ) {
             AdviceScreen(
                 arguments = AdviceArguments.fromBackStack(it),
-                onPreferencesOpen = onPreferencesOpen,
+                onSettingsOpen = onSettingsOpen,
+                settingsNavResult = settingsNavResult,
             )
         }
     }

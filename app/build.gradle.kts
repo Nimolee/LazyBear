@@ -82,6 +82,7 @@ dependencies {
     implementation(project(Modules.Data.PREFERENCES_IMPL))
     implementation(project(Modules.UI.ADVICE))
     implementation(project(Modules.UI.SETTINGS))
+    implementation(project(Modules.UI.NAVIGATION))
     implementation(project(Modules.Utils.LOG))
 
     implementation(libs.androidx.core.ktx)
