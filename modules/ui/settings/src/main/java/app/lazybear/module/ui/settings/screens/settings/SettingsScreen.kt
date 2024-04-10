@@ -1,6 +1,6 @@
 package app.lazybear.module.ui.settings.screens.settings
 
-import androidx.compose.animation.animateContentSize
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,11 +14,14 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -30,15 +33,31 @@ import app.lazybear.module.ui.settings.R
 import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     arguments: SettingsArguments,
-    onClose: () -> Unit,
+    onClose: (shuffle: Boolean) -> Unit,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    BackHandler {
+        onClose(false)
+    }
     Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { onClose(false) }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_arrow_down_24),
+                            contentDescription = stringResource(id = Localization.close_button),
+                        )
+                    }
+                },
+                title = { },
+            )
+        },
         bottomBar = {
             Box(
                 modifier = Modifier
@@ -47,7 +66,7 @@ fun SettingsScreen(
                     .padding(bottom = bottomInset)
             ) {
                 Button(
-                    onClick = { onClose() },
+                    onClick = { onClose(true) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -62,7 +81,7 @@ fun SettingsScreen(
     ) { insets ->
         LazyColumn(
             contentPadding = PaddingValues(
-                top = insets.calculateTopPadding() + 16.dp,
+                top = insets.calculateTopPadding(),
                 bottom = insets.calculateBottomPadding() + 16.dp,
             )
         ) {
@@ -94,9 +113,6 @@ fun SettingsScreen(
                         val selected = selectedGenresState.value.any { it.id == genre.id }
                         FilterChip(
                             selected = selected,
-                            leadingIcon = if (selected) {
-                                { Icon(painterResource(id = R.drawable.ic_selected_18), null) }
-                            } else null,
                             label = {
                                 Text(genre.name)
                             },
@@ -105,7 +121,6 @@ fun SettingsScreen(
                             },
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
-                                .animateContentSize(),
                         )
                     }
                 }
@@ -138,9 +153,6 @@ fun SettingsScreen(
                         val selected = index == selectedYearIndexState.value
                         FilterChip(
                             selected = selected,
-                            leadingIcon = if (selected) {
-                                { Icon(painterResource(id = R.drawable.ic_selected_18), null) }
-                            } else null,
                             label = {
                                 Text(
                                     when (index) {
@@ -155,7 +167,6 @@ fun SettingsScreen(
                             },
                             modifier = Modifier
                                 .padding(horizontal = 4.dp)
-                                .animateContentSize(),
                         )
                     }
                 }

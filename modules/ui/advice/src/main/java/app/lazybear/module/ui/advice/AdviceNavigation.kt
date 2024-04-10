@@ -10,7 +10,7 @@ import app.lazybear.module.ui.advice.advice.AdviceScreen
 fun NavGraphBuilder.adviceNavigation(
     route: String,
     navController: NavHostController,
-    onPreferencesOpen: () -> Unit,
+    onPreferencesOpen: suspend () -> Boolean,
 ) {
     navigation(
         route = route,
