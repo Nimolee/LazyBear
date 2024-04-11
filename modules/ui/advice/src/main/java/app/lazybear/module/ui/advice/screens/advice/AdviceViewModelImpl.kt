@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.advice.advice
+package app.lazybear.module.ui.advice.screens.advice
 
 import androidx.lifecycle.viewModelScope
 import app.lazybear.module.data.preferences.PreferencesRepository
@@ -8,7 +8,7 @@ import com.lazybear.module.data.tmdb_api.entities.Genre
 import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
 import com.lazybear.module.data.tmdb_api.errors.GenresErrors
-import com.lazybear.module.data.tmdb_api.errors.MovieError
+import com.lazybear.module.data.tmdb_api.errors.RecommendError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -34,10 +34,10 @@ class AdviceViewModelImpl(
     override val loadingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
     override val movieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
     override val networkErrorFlow: Flow<Boolean> =
-        _errorsFlow.map { it is GenresErrors.NetworkError || it is MovieError.NetworkError }
+        _errorsFlow.map { it is GenresErrors.NetworkError || it is RecommendError.NetworkError }
     override val unknownErrorFlow: Flow<Boolean> =
-        _errorsFlow.map { it is GenresErrors.UnknownError || it is MovieError.UnknownError }
-    override val noResultsErrorFlow: Flow<Boolean> = _errorsFlow.map { it is MovieError.NoResults }
+        _errorsFlow.map { it is GenresErrors.UnknownError || it is RecommendError.UnknownError }
+    override val noResultsErrorFlow: Flow<Boolean> = _errorsFlow.map { it is RecommendError.NoResults }
 
     private var _surpriseAttempt: Int = 0
     private var _retryAction: RetryAction? = null
@@ -71,7 +71,7 @@ class AdviceViewModelImpl(
     private suspend fun recommendMovie(
         genres: List<Genre>,
         year: ReleaseYear?,
-    ): Result<Movie, MovieError> {
+    ): Result<Movie, RecommendError> {
         return _tmdbRepository.recommendMovie(genres, year)
             .onSuccess { movieFlow.emit(it) }
             .onError { _errorsFlow.emit(it) }

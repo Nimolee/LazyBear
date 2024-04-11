@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.advice.advice
+package app.lazybear.module.ui.advice.screens.advice
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -43,7 +43,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
-import app.lazybear.module.ui.advice.components.MovieBackdropBlock
 import app.lazybear.module.ui.advice.components.MovieCastBlock
 import app.lazybear.module.ui.advice.components.MovieCrewBlock
 import app.lazybear.module.ui.advice.components.MovieDescriptionBlock
@@ -53,10 +52,10 @@ import app.lazybear.module.ui.advice.components.MovieSectionTitleBlock
 import app.lazybear.module.ui.advice.components.MovieTitleBlock
 import app.lazybear.module.ui.advice.components.MovieTrailerBlock
 import app.lazybear.module.ui.advice.components.WatchProvidersBlock
+import app.lazybear.module.ui.components.cards.BackdropCard
 import app.lazybear.module.ui.components.dialogs.ErrorDialog
 import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
 import app.lazybear.module.ui.localization.Localization
-import app.lazybear.module.ui.navigation.NavResult
 import app.lazybear.module.ui.navigation.NavResultHandler
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -65,15 +64,14 @@ import kotlin.math.min
 @Composable
 fun AdviceScreen(
     arguments: AdviceArguments,
-    onSettingsOpen: () -> Unit,
-    settingsNavResult: NavResult<Boolean>,
+    navigator: AdviceNavigator,
     viewModel: AdviceViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
-    NavResultHandler(settingsNavResult) { result ->
+    NavResultHandler(navigator.settingsResult) { result ->
         if (result) viewModel.shuffle()
     }
 
@@ -103,7 +101,7 @@ fun AdviceScreen(
                 ) {
                     val loadingState = viewModel.loadingFlow.collectAsState(false)
                     OutlinedButton(
-                        onClick = { onSettingsOpen() },
+                        onClick = { navigator.openSettings() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
                         modifier = Modifier.size(40.dp),
@@ -186,7 +184,15 @@ fun AdviceScreen(
                         MovieSectionTitleBlock(title = stringResource(id = Localization.backdrops_title))
                     }
                     items(min(movie.backdrops.size, 3)) { index: Int ->
-                        MovieBackdropBlock(backdrop = movie.backdrops[index])
+                        BackdropCard(
+                            imageUrl =
+                            movie.backdrops[index].link,
+                            aspectRatio = movie.backdrops[index].aspectRatio,
+                            modifier = Modifier.padding(
+                                horizontal = 16.dp,
+                                vertical = 4.dp,
+                            ),
+                        )
                     }
                     if (movie.backdrops.size > 3) {
                         item {
@@ -199,7 +205,10 @@ fun AdviceScreen(
                                     )
                             ) {
                                 OutlinedButton(
-                                    onClick = { /*TODO*/ },
+                                    onClick = {
+                                        navigator.openBackdropGallery(movie.id)
+                                    },
+                                    modifier = Modifier.fillMaxWidth(),
                                 ) {
                                     Text(text = stringResource(id = Localization.more_backdrops_button))
                                 }

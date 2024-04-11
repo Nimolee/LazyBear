@@ -16,8 +16,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,11 +23,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import app.lazybear.module.ui.components.buttons.HideButton
 import app.lazybear.module.ui.localization.Localization
-import app.lazybear.module.ui.settings.R
 import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,22 +34,19 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingsScreen(
     arguments: SettingsArguments,
-    onClose: (shuffle: Boolean) -> Unit,
+    navigator: SettingsNavigator,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     BackHandler {
-        onClose(false)
+        navigator.close(false)
     }
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { onClose(false) }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_down_24),
-                            contentDescription = stringResource(id = Localization.close_button),
-                        )
+                    HideButton {
+                        navigator.close(false)
                     }
                 },
                 title = { },
@@ -66,18 +60,18 @@ fun SettingsScreen(
                     .padding(bottom = bottomInset)
             ) {
                 Button(
-                    onClick = { onClose(true) },
+                    onClick = { navigator.close(true) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
                             horizontal = 16.dp,
                             vertical = 12.dp,
-                        )
+                        ),
                 ) {
                     Text(stringResource(id = Localization.shuffle_button))
                 }
             }
-        }
+        },
     ) { insets ->
         LazyColumn(
             contentPadding = PaddingValues(
@@ -111,16 +105,11 @@ fun SettingsScreen(
                 ) {
                     genresState.value.forEach { genre ->
                         val selected = selectedGenresState.value.any { it.id == genre.id }
-                        FilterChip(
-                            selected = selected,
-                            label = {
-                                Text(genre.name)
-                            },
-                            onClick = {
-                                viewModel.selectGenre(genre)
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                        FilterChip(selected = selected, label = {
+                            Text(genre.name)
+                        }, onClick = {
+                            viewModel.selectGenre(genre)
+                        }, modifier = Modifier.padding(horizontal = 4.dp)
                         )
                     }
                 }
@@ -151,22 +140,17 @@ fun SettingsScreen(
                 ) {
                     yearsState.value.forEachIndexed { index, year ->
                         val selected = index == selectedYearIndexState.value
-                        FilterChip(
-                            selected = selected,
-                            label = {
-                                Text(
-                                    when (index) {
-                                        0 -> stringResource(id = Localization.last_two_years)
-                                        yearsState.value.size - 1 -> stringResource(id = Localization.until_80s)
-                                        else -> "${year.start.year}-${year.end.year}"
-                                    }
-                                )
-                            },
-                            onClick = {
-                                viewModel.selectYear(index)
-                            },
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
+                        FilterChip(selected = selected, label = {
+                            Text(
+                                when (index) {
+                                    0 -> stringResource(id = Localization.last_two_years)
+                                    yearsState.value.size - 1 -> stringResource(id = Localization.until_80s)
+                                    else -> "${year.start.year}-${year.end.year}"
+                                }
+                            )
+                        }, onClick = {
+                            viewModel.selectYear(index)
+                        }, modifier = Modifier.padding(horizontal = 4.dp)
                         )
                     }
                 }

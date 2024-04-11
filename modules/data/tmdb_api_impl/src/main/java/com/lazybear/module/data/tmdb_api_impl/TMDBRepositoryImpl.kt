@@ -14,6 +14,7 @@ import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.entities.ReleaseYear
 import com.lazybear.module.data.tmdb_api.errors.GenresErrors
 import com.lazybear.module.data.tmdb_api.errors.MovieError
+import com.lazybear.module.data.tmdb_api.errors.RecommendError
 import com.lazybear.module.data.tmdb_api_impl.endpoints.DiscoverEndpoint
 import com.lazybear.module.data.tmdb_api_impl.endpoints.GenresEndpoint
 import com.lazybear.module.data.tmdb_api_impl.endpoints.MoviesEndpoint
@@ -44,6 +45,16 @@ class TMDBRepositoryImpl(
     override val yearsFlow: MutableStateFlow<List<ReleaseYear>> =
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
 
+    private suspend fun loadMovie(movieId: Int): ServerResult<Movie> {
+        return _scope.async {
+            _movieEndpoints.loadMovieDetails(movieId).map {
+                it?.toDomain()
+            }.dropNull().dropNull().onSuccess {
+                logD(TAG, "loadMovie") { "loadMovieResult = $it" }
+            }
+        }.await()
+    }
+
     override suspend fun loadGenres(force: Boolean): Result<List<Genre>, GenresErrors> {
         return _scope.async {
             if (!force && genresFlow.value.isNotEmpty()) {
@@ -72,7 +83,7 @@ class TMDBRepositoryImpl(
     override suspend fun recommendMovie(
         genres: List<Genre>,
         releaseYear: ReleaseYear?,
-    ): Result<Movie, MovieError> {
+    ): Result<Movie, RecommendError> {
         logD(TAG, "recommendMovie") { "Start movie recommendation" }
         val releaseDateAfter = releaseYear?.start?.let { ISO_DATE.format(it) }
         val releaseDateBefore = releaseYear?.end?.let { ISO_DATE.format(it) }
@@ -109,12 +120,12 @@ class TMDBRepositoryImpl(
             }.mergeErrors().dropNull().toResult(
                 errorMapper = {
                     when (it.code) {
-                        ERROR_CODE_NO_MOVIE -> MovieError.NoResults
-                        else -> MovieError.UnknownError
+                        ERROR_CODE_NO_MOVIE -> RecommendError.NoResults
+                        else -> RecommendError.UnknownError
                     }
                 },
-                networkErrorMapper = { MovieError.NetworkError },
-                unknownErrorMapper = { MovieError.UnknownError },
+                networkErrorMapper = { RecommendError.NetworkError },
+                unknownErrorMapper = { RecommendError.UnknownError },
             ).let {
                 if (it.isSuccess && it.body?.bad == true) {
                     logD(TAG, "recommendMovie") { "Bad movie found. Try again." }
@@ -126,13 +137,12 @@ class TMDBRepositoryImpl(
         }.await()
     }
 
-    private suspend fun loadMovie(movieId: Int): ServerResult<Movie> {
-        return _scope.async {
-            _movieEndpoints.loadMovieDetails(movieId).map {
-                it?.toDomain()
-            }.dropNull().dropNull().onSuccess {
-                logD(TAG, "loadMovie") { "loadMovieResult = $it" }
-            }
-        }.await()
+    override suspend fun getMovie(movieId: Int): Result<Movie, MovieError> {
+        return loadMovie(movieId).toResult(
+            errorMapper = { MovieError.UnknownError },
+            networkErrorMapper = { MovieError.NetworkError },
+            unknownErrorMapper = { MovieError.UnknownError },
+        )
     }
+
 }

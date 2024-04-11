@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.advice.advice
+package app.lazybear.module.ui.advice.screens.advice
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry

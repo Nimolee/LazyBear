@@ -45,6 +45,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation)
+    implementation(libs.glide)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.tooling.preview)
     testImplementation(libs.junit)

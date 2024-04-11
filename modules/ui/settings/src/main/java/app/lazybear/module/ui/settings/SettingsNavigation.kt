@@ -1,13 +1,13 @@
 package app.lazybear.module.ui.settings
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.tween
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import app.lazybear.module.ui.components.animations.slideFromBottomAnimation
+import app.lazybear.module.ui.components.animations.slideToBottomAnimation
 import app.lazybear.module.ui.settings.screens.settings.SettingsArguments
+import app.lazybear.module.ui.settings.screens.settings.SettingsNavigator
 import app.lazybear.module.ui.settings.screens.settings.SettingsScreen
 
 fun NavGraphBuilder.settingsNavigation(
@@ -22,22 +22,16 @@ fun NavGraphBuilder.settingsNavigation(
         composable(
             route = SettingsArguments.route,
             arguments = SettingsArguments.arguments,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Up,
-                    animationSpec = tween(300, easing = EaseIn),
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Down,
-                    animationSpec = tween(300, easing = EaseIn),
-                )
-            }
+            enterTransition = { slideFromBottomAnimation() },
+            exitTransition = { slideToBottomAnimation() }
         ) {
             SettingsScreen(
                 arguments = SettingsArguments.fromBackStack(it),
-                onClose = onClose,
+                navigator = object : SettingsNavigator {
+                    override fun close(shuffle: Boolean) {
+                        onClose(shuffle)
+                    }
+                },
             )
         }
     }
