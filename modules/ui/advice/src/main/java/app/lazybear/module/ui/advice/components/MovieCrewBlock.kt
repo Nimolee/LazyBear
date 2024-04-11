@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,18 +28,37 @@ fun MovieCrewBlock(
                 horizontal = 16.dp,
             )
         ) {
-            for (index in 0..crew.count() step 2) {
+            val sortedCrew: List<CrewMember> = remember {
+                val sorted = mutableListOf<CrewMember>()
+                for (index in crew.indices) {
+                    val member = crew[index]
+                    if (sorted.none { it.name == member.name }) {
+                        sorted.add(
+                            CrewMember(
+                                member.id,
+                                name = member.name,
+                                profile = member.profile,
+                                department = member.department,
+                                job = crew.filter { it.name == member.name }
+                                    .joinToString(", ") { it.job }
+                            )
+                        )
+                    }
+                }
+                sorted
+            }
+            for (index in 0..sortedCrew.count() step 2) {
                 if (index != 0) {
                     Spacer(modifier = Modifier.height(8.dp))
                 }
                 Row {
                     CrewItem(
-                        member = crew.getOrNull(index),
+                        member = sortedCrew.getOrNull(index),
                         modifier = Modifier.weight(1f),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     CrewItem(
-                        member = crew.getOrNull(index + 1),
+                        member = sortedCrew.getOrNull(index + 1),
                         modifier = Modifier.weight(1f),
                     )
                 }
