@@ -2,7 +2,6 @@ package app.lazybear.module.ui.advice.screens.backdrops
 
 import androidx.lifecycle.viewModelScope
 import com.lazybear.module.data.tmdb_api.TMDBRepository
-import com.lazybear.module.data.tmdb_api.entities.Movie
 import com.lazybear.module.data.tmdb_api.errors.MovieError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +14,7 @@ class BackdropViewModelImpl(
     private val _errorsFlow: MutableStateFlow<Any?> = MutableStateFlow(null)
 
     override val loadingFlow: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    override val movieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
+    override val movieFlow = _tmdbRepository.recommendedMovieFlow
     override val networkErrorFlow: Flow<Boolean> = _errorsFlow.map { it is MovieError.NetworkError }
     override val unknownErrorFlow: Flow<Boolean> = _errorsFlow.map { it is MovieError.UnknownError }
 
@@ -26,7 +25,6 @@ class BackdropViewModelImpl(
         viewModelScope.launch {
             loadingFlow.emit(true)
             _tmdbRepository.getMovie(movieId)
-                .onSuccess { movieFlow.emit(it) }
                 .onError { _errorsFlow.emit(it) }
                 .also { loadingFlow.emit(false) }
         }

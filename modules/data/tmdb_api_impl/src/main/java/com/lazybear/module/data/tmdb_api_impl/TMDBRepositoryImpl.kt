@@ -44,13 +44,18 @@ class TMDBRepositoryImpl(
     override val genresFlow: MutableStateFlow<List<Genre>> = MutableStateFlow(emptyList())
     override val yearsFlow: MutableStateFlow<List<ReleaseYear>> =
         MutableStateFlow(ReleaseYearEntity.getYears().map { it.toDomain() })
+    override val recommendedMovieFlow: MutableStateFlow<Movie?> = MutableStateFlow(null)
 
     private suspend fun loadMovie(movieId: Int): ServerResult<Movie> {
         return _scope.async {
-            _movieEndpoints.loadMovieDetails(movieId).map {
-                it?.toDomain()
-            }.dropNull().dropNull().onSuccess {
-                logD(TAG, "loadMovie") { "loadMovieResult = $it" }
+            if (movieId == recommendedMovieFlow.value?.id) {
+                ServerResult.Success(recommendedMovieFlow.value)
+            } else {
+                _movieEndpoints.loadMovieDetails(movieId).map {
+                    it?.toDomain().also { movie -> recommendedMovieFlow.emit(movie) }
+                }.dropNull().dropNull().onSuccess {
+                    logD(TAG, "loadMovie") { "loadMovieResult = $it" }
+                }
             }
         }.await()
     }
@@ -68,11 +73,9 @@ class TMDBRepositoryImpl(
                         genres
                     }
                 }.dropNull()
-            }.toResult(
-                errorMapper = { GenresErrors.UnknownError },
+            }.toResult(errorMapper = { GenresErrors.UnknownError },
                 networkErrorMapper = { GenresErrors.NetworkError },
-                unknownErrorMapper = { GenresErrors.UnknownError }
-            )
+                unknownErrorMapper = { GenresErrors.UnknownError })
         }.await()
     }
 
@@ -84,6 +87,7 @@ class TMDBRepositoryImpl(
         genres: List<Genre>,
         releaseYear: ReleaseYear?,
     ): Result<Movie, RecommendError> {
+        recommendedMovieFlow.emit(null)
         logD(TAG, "recommendMovie") { "Start movie recommendation" }
         val releaseDateAfter = releaseYear?.start?.let { ISO_DATE.format(it) }
         val releaseDateBefore = releaseYear?.end?.let { ISO_DATE.format(it) }

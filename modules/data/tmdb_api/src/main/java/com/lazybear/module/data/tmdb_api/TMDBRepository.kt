@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface TMDBRepository {
     val genresFlow: Flow<List<Genre>>
     val yearsFlow: Flow<List<ReleaseYear>>
+    val recommendedMovieFlow: Flow<Movie?>
 
     suspend fun loadGenres(force: Boolean = false): Result<List<Genre>, GenresErrors>
 

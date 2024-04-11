@@ -72,7 +72,10 @@ fun AdviceScreen(
     val scope = rememberCoroutineScope()
 
     NavResultHandler(navigator.settingsResult) { result ->
-        if (result) viewModel.shuffle()
+        if (result) {
+            viewModel.shuffle()
+            scope.launch { listState.scrollToItem(0) }
+        }
     }
 
     Scaffold(
