@@ -25,8 +25,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.advice.R
+import app.lazybear.module.ui.localization.Localization
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.lazybear.module.data.tmdb_api.entities.Provider
 import com.lazybear.module.data.tmdb_api.entities.Provider.AppleTV
@@ -64,6 +64,26 @@ fun WatchProvidersBlock(
             ),
             modifier = Modifier.fillMaxWidth(),
         ) {
+            items(providers.size) { index ->
+                Image(
+                    painter = painterResource(id = getIconForProvider(providers[index].provider)),
+                    contentDescription = providers[index].name,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(64.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            context.startActivity(
+                                Intent(
+                                    ACTION_VIEW, getUriForProvider(
+                                        providers[index].provider,
+                                        movieTitle,
+                                    )
+                                )
+                            )
+                        },
+                )
+            }
             item {
                 Box(modifier = Modifier
                     .size(64.dp)
@@ -84,26 +104,6 @@ fun WatchProvidersBlock(
                             .padding(12.dp)
                     )
                 }
-            }
-            items(providers.size) { index ->
-                Image(
-                    painter = painterResource(id = getIconForProvider(providers[index].provider)),
-                    contentDescription = providers[index].name,
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(64.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            context.startActivity(
-                                Intent(
-                                    ACTION_VIEW, getUriForProvider(
-                                        providers[index].provider,
-                                        movieTitle,
-                                    )
-                                )
-                            )
-                        },
-                )
             }
         }
     }
