@@ -1,5 +1,6 @@
 package app.lazybear.module.ui.advice.components
 
+import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
@@ -38,7 +39,6 @@ import com.lazybear.module.data.tmdb_api.entities.Provider.RakutenTV
 import com.lazybear.module.data.tmdb_api.entities.Provider.YouTube
 import com.lazybear.module.data.tmdb_api.entities.WatchProvider
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun WatchProvidersBlock(
     movieTitle: String,
@@ -73,29 +73,24 @@ fun WatchProvidersBlock(
                         .size(64.dp)
                         .clip(CircleShape)
                         .clickable {
-                            context.startActivity(
-                                Intent(
-                                    ACTION_VIEW, getUriForProvider(
-                                        providers[index].provider,
-                                        movieTitle,
-                                    )
+                            context.openLink(
+                                getUriForProvider(
+                                    providers[index].provider,
+                                    movieTitle,
                                 )
                             )
                         },
                 )
             }
             item {
-                Box(modifier = Modifier
-                    .size(64.dp)
-                    .clip(CircleShape)
-                    .clickable {
-                        context.startActivity(
-                            Intent(
-                                ACTION_VIEW,
-                                Uri.parse("https://www.google.com/search?q=$movieTitle+$releaseYear")
-                            )
-                        )
-                    }) {
+                Box(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape)
+                        .clickable {
+                            context.openLink(getUriForGoogle(movieTitle, releaseYear))
+                        },
+                ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_search),
                         contentDescription = stringResource(id = Localization.search_hint),
@@ -107,6 +102,10 @@ fun WatchProvidersBlock(
             }
         }
     }
+}
+
+private fun Context.openLink(uri: Uri) {
+    startActivity(Intent(ACTION_VIEW, uri))
 }
 
 private fun getIconForProvider(provider: Provider): Int {
@@ -121,7 +120,10 @@ private fun getIconForProvider(provider: Provider): Int {
     }
 }
 
-private fun getUriForProvider(provider: Provider, movieName: String): Uri {
+private fun getUriForProvider(
+    provider: Provider,
+    movieName: String,
+): Uri {
     return when (provider) {
         AppleTV -> "https://tv.apple.com/search?term=$movieName"
         GooglePlayMovies -> "https://play.google.com/store/search?q=$movieName&c=movies"
@@ -131,4 +133,11 @@ private fun getUriForProvider(provider: Provider, movieName: String): Uri {
         Crunchyroll -> "https://www.crunchyroll.com/search?q=$movieName"
         HBOMax -> "https://www.max.com"
     }.let { Uri.parse(it) }
+}
+
+private fun getUriForGoogle(
+    movieName: String,
+    releaseYear: Int,
+): Uri {
+    return "https://www.google.com/search?q=$movieName+$releaseYear".let { Uri.parse(it) }
 }
