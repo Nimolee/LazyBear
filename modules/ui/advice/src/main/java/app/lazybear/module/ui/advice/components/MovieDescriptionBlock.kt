@@ -2,7 +2,9 @@ package app.lazybear.module.ui.advice.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,9 +46,10 @@ fun MovieDescriptionBlock(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
-                .animateContentSize(),
+                .animateContentSize()
         )
         if (expandedState.value) {
+            Spacer(modifier = Modifier.height(12.dp))
             val sortedCrew: List<CrewMember> = remember {
                 val sorted = mutableListOf<CrewMember>()
                 for (index in crew.indices) {

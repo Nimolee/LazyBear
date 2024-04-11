@@ -259,9 +259,7 @@ fun AdviceScreen(
 private fun LazyListState.isScrollingUp(): Boolean {
     var previousIndex by remember(this) { mutableIntStateOf(firstVisibleItemIndex) }
     var previousScrollOffset by remember(this) {
-        mutableIntStateOf(
-            firstVisibleItemScrollOffset
-        )
+        mutableIntStateOf(firstVisibleItemScrollOffset)
     }
     return remember(this) {
         derivedStateOf {
