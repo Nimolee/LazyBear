@@ -21,4 +21,6 @@
     <string name="error_title">Error</string>
     <string name="unknown_error_message">Something went wrong, please, try again.</string>
     <string name="no_results_error_message">There no movie for your filters. Please, update preferences to found new movies.</string>
+    <string name="show_more_button">Show more</string>
+    <string name="show_less_button">Show less</string>
 </resources>

@@ -44,7 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
 import app.lazybear.module.ui.advice.components.MovieCastBlock
-import app.lazybear.module.ui.advice.components.MovieCrewBlock
 import app.lazybear.module.ui.advice.components.MovieDescriptionBlock
 import app.lazybear.module.ui.advice.components.MovieKeywordsBlock
 import app.lazybear.module.ui.advice.components.MoviePosterBlock
@@ -164,10 +163,10 @@ fun AdviceScreen(
                     )
                 }
                 item {
-                    MovieDescriptionBlock(description = movie.overview)
-                }
-                item {
-                    MovieCrewBlock(crew = movie.crew)
+                    MovieDescriptionBlock(
+                        description = movie.overview,
+                        crew = movie.crew,
+                    )
                 }
                 item {
                     WatchProvidersBlock(
@@ -191,10 +190,9 @@ fun AdviceScreen(
                             imageUrl =
                             movie.backdrops[index].link,
                             aspectRatio = movie.backdrops[index].aspectRatio,
-                            modifier = Modifier.padding(
-                                horizontal = 16.dp,
-                                vertical = 4.dp,
-                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .padding(top = 8.dp),
                         )
                     }
                     if (movie.backdrops.size > 3) {
