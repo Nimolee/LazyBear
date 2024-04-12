@@ -160,6 +160,8 @@ fun AdviceScreen(
                         releaseYear = movie.releaseDate.year.toString(),
                         duration = movie.duration,
                         genres = movie.genres,
+                        voteAverage = movie.voteAverage,
+                        voteCount = movie.voteCount,
                     )
                 }
                 item {

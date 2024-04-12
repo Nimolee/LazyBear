@@ -9,6 +9,7 @@ data class Movie(
     val originalTitle: String,
     val tagline: String,
     val voteAverage: Float,
+    val voteCount: Int,
     val overview: String,
     val genres: List<Genre>,
     val imdbId: String?,
