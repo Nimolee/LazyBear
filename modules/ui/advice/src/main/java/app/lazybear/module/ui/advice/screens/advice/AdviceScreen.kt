@@ -115,7 +115,7 @@ fun AdviceScreen(
                     val loadingState = viewModel.loadingFlow.collectAsState(false)
 
                     Button(
-                        onClick = { navigator.openFilters() },
+                        onClick = { navigator.openSettings() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
                         colors = darkButtonStyleColors(),

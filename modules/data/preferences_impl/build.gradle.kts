@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "app.lazybear.module.data.preferences_impl"
-    compileSdk = 34
+    compileSdk = rootProject.extra.get("compileSdk") as Int
 
     defaultConfig {
-        minSdk = 30
+        minSdk = rootProject.extra.get("minSdk") as Int
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

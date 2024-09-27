@@ -16,12 +16,12 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "app.lazybear"
-    compileSdk = 35
+    compileSdk = rootProject.extra.get("compileSdk") as Int
 
     defaultConfig {
         applicationId = "app.lazybear"
-        minSdk = 31
-        targetSdk = 35
+        minSdk = rootProject.extra.get("minSdk") as Int
+        targetSdk = rootProject.extra.get("targetSdk") as Int
         versionCode = 2
         versionName = "0.1.1"
 
@@ -93,6 +93,7 @@ dependencies {
     implementation(project(Modules.Data.PREFERENCES_IMPL))
     implementation(project(Modules.UI.ADVICE))
     implementation(project(Modules.UI.FILTERS))
+    implementation(project(Modules.UI.SETTINGS))
     implementation(project(Modules.UI.NAVIGATION))
     implementation(project(Modules.UI.COMPONENTS))
     implementation(project(Modules.Utils.LOG))

@@ -4,3 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
 }
+
+val minSdk by extra(31)
+val compileSdk by extra(34)
+val targetSdk by extra(34)
