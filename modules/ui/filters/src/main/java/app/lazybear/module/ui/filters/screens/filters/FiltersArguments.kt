@@ -1,17 +1,17 @@
-package app.lazybear.module.ui.settings.screens.settings
+package app.lazybear.module.ui.filters.screens.filters
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 
-class SettingsArguments {
+class FiltersArguments {
     companion object {
-        private const val ROUTE_NAME = "settings"
+        private const val ROUTE_NAME = "filters"
 
         const val route = ROUTE_NAME
         val arguments: List<NamedNavArgument> = listOf()
 
-        fun fromBackStack(backStack: NavBackStackEntry): SettingsArguments {
-            return SettingsArguments()
+        fun fromBackStack(backStack: NavBackStackEntry): FiltersArguments {
+            return FiltersArguments()
         }
     }
 

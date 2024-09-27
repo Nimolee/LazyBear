@@ -5,6 +5,8 @@ import app.lazybear.module.ui.navigation.NavResult
 interface AdviceNavigator {
     val settingsResult: NavResult<Boolean>
 
+    fun openFilters()
+
     fun openSettings()
 
     fun openBackdropGallery(movieId: Int)

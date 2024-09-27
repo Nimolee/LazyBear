@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.settings.screens.settings
+package app.lazybear.module.ui.filters.screens.filters
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -26,16 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.components.buttons.HideButton
+import app.lazybear.module.ui.filters.components.SelectionTitleBlock
 import app.lazybear.module.ui.localization.Localization
-import app.lazybear.module.ui.settings.components.SelectionTitleBlock
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(
-    arguments: SettingsArguments,
-    navigator: SettingsNavigator,
-    viewModel: SettingsViewModel = koinViewModel(),
+fun FiltersScreen(
+    arguments: FiltersArguments,
+    navigator: FiltersNavigator,
+    viewModel: FiltersViewModel = koinViewModel(),
 ) {
     val bottomInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     BackHandler {

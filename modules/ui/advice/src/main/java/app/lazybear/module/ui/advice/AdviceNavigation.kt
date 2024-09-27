@@ -17,8 +17,9 @@ import app.lazybear.module.ui.navigation.NavResult
 fun NavGraphBuilder.adviceNavigation(
     route: String,
     navController: NavHostController,
+    onFiltersOpen: () -> Unit,
     onSettingsOpen: () -> Unit,
-    settingsNavResult: NavResult<Boolean>,
+    filtersNavResult: NavResult<Boolean>,
 ) {
     navigation(
         route = route,
@@ -32,7 +33,11 @@ fun NavGraphBuilder.adviceNavigation(
                 arguments = AdviceArguments.fromBackStack(it),
                 navigator = object : AdviceNavigator {
                     override val settingsResult: NavResult<Boolean>
-                        get() = settingsNavResult
+                        get() = filtersNavResult
+
+                    override fun openFilters() {
+                        onFiltersOpen()
+                    }
 
                     override fun openSettings() {
                         onSettingsOpen()

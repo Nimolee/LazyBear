@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.settings
+package app.lazybear.module.ui.filters
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -6,28 +6,28 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import app.lazybear.module.ui.components.animations.slideFromBottomAnimation
 import app.lazybear.module.ui.components.animations.slideToBottomAnimation
-import app.lazybear.module.ui.settings.screens.settings.SettingsArguments
-import app.lazybear.module.ui.settings.screens.settings.SettingsNavigator
-import app.lazybear.module.ui.settings.screens.settings.SettingsScreen
+import app.lazybear.module.ui.filters.screens.filters.FiltersArguments
+import app.lazybear.module.ui.filters.screens.filters.FiltersNavigator
+import app.lazybear.module.ui.filters.screens.filters.FiltersScreen
 
-fun NavGraphBuilder.settingsNavigation(
+fun NavGraphBuilder.filtersNavigation(
     route: String,
     navController: NavHostController,
     onClose: (shuffle: Boolean) -> Unit,
 ) {
     navigation(
         route = route,
-        startDestination = SettingsArguments().toRoute(),
+        startDestination = FiltersArguments().toRoute(),
     ) {
         composable(
-            route = SettingsArguments.route,
-            arguments = SettingsArguments.arguments,
+            route = FiltersArguments.route,
+            arguments = FiltersArguments.arguments,
             enterTransition = { slideFromBottomAnimation() },
             exitTransition = { slideToBottomAnimation() }
         ) {
-            SettingsScreen(
-                arguments = SettingsArguments.fromBackStack(it),
-                navigator = object : SettingsNavigator {
+            FiltersScreen(
+                arguments = FiltersArguments.fromBackStack(it),
+                navigator = object : FiltersNavigator {
                     override fun close(shuffle: Boolean) {
                         onClose(shuffle)
                     }

@@ -13,7 +13,7 @@ object Modules {
 
     object UI {
         const val ADVICE = ":modules:ui:advice"
-        const val SETTINGS = ":modules:ui:settings"
+        const val FILTERS = ":modules:ui:filters"
         const val COMPONENTS = ":modules:ui:components"
         const val LOCALIZATION = ":modules:ui:localization"
         const val NAVIGATION = ":modules:ui:navigation"

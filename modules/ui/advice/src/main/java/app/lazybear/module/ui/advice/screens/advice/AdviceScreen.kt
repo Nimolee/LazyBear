@@ -115,7 +115,7 @@ fun AdviceScreen(
                     val loadingState = viewModel.loadingFlow.collectAsState(false)
 
                     Button(
-                        onClick = { navigator.openSettings() },
+                        onClick = { navigator.openFilters() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
                         colors = darkButtonStyleColors(),
@@ -145,7 +145,7 @@ fun AdviceScreen(
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
-                        onClick = { navigator.openSettings() },
+                        onClick = { navigator.openFilters() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
                         colors = darkButtonStyleColors(),

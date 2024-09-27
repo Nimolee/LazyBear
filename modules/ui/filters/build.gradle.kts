@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "app.lazybear.module.ui.settings"
+    namespace = "app.lazybear.module.ui.filters"
     compileSdk = 34
 
     defaultConfig {

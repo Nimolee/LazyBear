@@ -1,4 +1,4 @@
-package app.lazybear.module.ui.settings.components
+package app.lazybear.module.ui.filters.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

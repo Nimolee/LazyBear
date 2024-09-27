@@ -92,7 +92,7 @@ dependencies {
     implementation(project(Modules.Data.PREFERENCES))
     implementation(project(Modules.Data.PREFERENCES_IMPL))
     implementation(project(Modules.UI.ADVICE))
-    implementation(project(Modules.UI.SETTINGS))
+    implementation(project(Modules.UI.FILTERS))
     implementation(project(Modules.UI.NAVIGATION))
     implementation(project(Modules.UI.COMPONENTS))
     implementation(project(Modules.Utils.LOG))

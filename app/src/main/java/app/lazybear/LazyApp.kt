@@ -3,7 +3,7 @@ package app.lazybear
 import android.app.Application
 import app.lazybear.module.data.preferences_impl.preferencesModule
 import app.lazybear.module.ui.advice.adviceModule
-import app.lazybear.module.ui.settings.settingsModule
+import app.lazybear.module.ui.filters.filtersModule
 import com.lazybear.module.data.tmdb_api_impl.tmdbModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -28,7 +28,7 @@ class LazyApp : Application() {
                 //UI modules
                 mainModule(),
                 adviceModule(),
-                settingsModule(),
+                filtersModule(),
             )
         }
     }
