@@ -7,6 +7,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -94,6 +96,13 @@ fun AdviceScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                            onClick = {
+                                //Do nothing
+                            }
+                        )
                         .padding(
                             bottom = bottomInset + 12.dp,
                             top = 12.dp,
