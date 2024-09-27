@@ -15,9 +15,10 @@ fun preferencesModule(
         get<Context>().getSharedPreferences(BuildConfig.SHARED_PREFERENCES_NAME, MODE_PRIVATE)
     }
     single(named(BuildConfig.ENCRYPTED_SHARED_PREFERENCES_NAME)) {
-        val masterKey = MasterKey.Builder(get<Context>())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        val masterKey = MasterKey(
+            get<Context>(),
+            keyScheme = MasterKey.KeyScheme.AES256_GCM
+        )
         EncryptedSharedPreferences.create(
             get<Context>(),
             BuildConfig.ENCRYPTED_SHARED_PREFERENCES_NAME,
@@ -29,7 +30,7 @@ fun preferencesModule(
     single<PreferencesRepository> {
         PreferencesRepositoryImpl(
             get(named(BuildConfig.SHARED_PREFERENCES_NAME)),
-            get(named(BuildConfig.ENCRYPTED_SHARED_PREFERENCES_NAME)),
+            get(named(BuildConfig.ENCRYPTED_SHARED_PREFERENCES_NAME))
         )
     }
     factory(named(tokenFlowName)) {

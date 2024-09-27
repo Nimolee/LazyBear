@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -55,6 +56,8 @@ import app.lazybear.module.ui.components.cards.BackdropCard
 import app.lazybear.module.ui.components.dialogs.ErrorDialog
 import app.lazybear.module.ui.components.dialogs.LoadingDialog
 import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
+import app.lazybear.module.ui.components.styles.darkButtonStyleColors
+import app.lazybear.module.ui.components.styles.lightButtonStyleColors
 import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.navigation.NavResultHandler
 import kotlinx.coroutines.launch
@@ -110,38 +113,48 @@ fun AdviceScreen(
                         )
                 ) {
                     val loadingState = viewModel.loadingFlow.collectAsState(false)
-                    OutlinedButton(
+
+                    Button(
                         onClick = { navigator.openSettings() },
                         contentPadding = PaddingValues(0.dp),
                         enabled = loadingState.value.not(),
-                        modifier = Modifier.size(40.dp),
+                        colors = darkButtonStyleColors(),
+                        modifier = Modifier.size(48.dp),
                     ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_profile_18),
-                            contentDescription = null,
+                            painter = painterResource(id = R.drawable.ic_bear),
+                            contentDescription = stringResource(id = Localization.settings_button),
                         )
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    OutlinedButton(
-                        onClick = {
-                            viewModel.surprise()
-                            scope.launch { listState.scrollToItem(0) }
-                        },
-                        enabled = loadingState.value.not(),
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Text(text = stringResource(id = Localization.surprise_me_button))
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                     Button(
                         onClick = {
                             viewModel.shuffle()
                             scope.launch { listState.scrollToItem(0) }
                         },
                         enabled = loadingState.value.not(),
-                        modifier = Modifier.weight(1f)
+                        colors = lightButtonStyleColors(),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(48.dp)
                     ) {
-                        Text(text = stringResource(id = Localization.shuffle_button))
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_bear_foot),
+                            contentDescription = stringResource(id = Localization.shuffle_button)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Button(
+                        onClick = { navigator.openSettings() },
+                        contentPadding = PaddingValues(0.dp),
+                        enabled = loadingState.value.not(),
+                        colors = darkButtonStyleColors(),
+                        modifier = Modifier.size(48.dp),
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_popcorn),
+                            contentDescription = stringResource(id = Localization.filters_button),
+                        )
                     }
                 }
             }

@@ -34,7 +34,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             if (!showSplashScreenState.value) {
                 KoinContext {
-                    LazyBearTheme {
+                    LazyBearTheme(
+                        darkTheme = true,
+                        dynamicColor = false,
+                    ) {
                         MainNavigation()
                     }
                 }
