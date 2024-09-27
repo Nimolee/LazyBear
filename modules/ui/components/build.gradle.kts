@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
     implementation(libs.glide)
+    implementation(libs.lottie)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.tooling.preview)
     testImplementation(libs.junit)

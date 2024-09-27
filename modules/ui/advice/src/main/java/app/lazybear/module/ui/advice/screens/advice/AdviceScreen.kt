@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -55,6 +53,7 @@ import app.lazybear.module.ui.advice.components.MovieTrailerBlock
 import app.lazybear.module.ui.advice.components.WatchProvidersBlock
 import app.lazybear.module.ui.components.cards.BackdropCard
 import app.lazybear.module.ui.components.dialogs.ErrorDialog
+import app.lazybear.module.ui.components.dialogs.LoadingDialog
 import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
 import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.navigation.NavResultHandler
@@ -234,12 +233,7 @@ fun AdviceScreen(
 
         val loadingState = viewModel.loadingFlow.collectAsState(false)
         if (loadingState.value) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                CircularProgressIndicator()
-            }
+            LoadingDialog()
         }
 
         val networkErrorState = viewModel.networkErrorFlow.collectAsState(initial = false)

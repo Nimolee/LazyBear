@@ -16,6 +16,7 @@ prefsCrypto = "1.1.0-alpha06"
 splash = "1.0.1"
 gson = "2.10.1"
 glide = "1.0.0-beta01"
+lottie = "6.5.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ crypto-prefs-ktx = { group = "androidx.security", name = "security-crypto-ktx", 
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 
 [bundles]
 koin = ["koin-core", "koin-compose", "koin-android"]
