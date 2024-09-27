@@ -4,6 +4,7 @@
     <string name="shuffle_button">Shuffle</string>
     <string name="filters_button">Filters</string>
     <string name="settings_button">Settings</string>
+    <string name="profile_title">Profile</string>
     <string name="last_two_years">Last 2 years</string>
     <string name="until_80s">Until the 80’s</string>
     <string name="surprise_me_button">Surprise me</string>
@@ -25,4 +26,11 @@
     <string name="no_results_error_message">There no movie for your filters. Please, update preferences to found new movies.</string>
     <string name="show_more_button">Show more</string>
     <string name="show_less_button">Show less</string>
+
+    <!--Settings-->
+    <string name="language_title">Language</string>
+    <string name="current_language_title">English</string>
+    <string name="rate_us_title">Rate us</string>
+    <string name="tmdb_notice">This application uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB.</string>
+    <string name="tmdb_link">https://www.themoviedb.org/</string>
 </resources>

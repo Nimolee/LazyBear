@@ -83,6 +83,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    defaultConfig {
+        resourceConfigurations.addAll(listOf("en", "uk"))
+    }
 }
 
 dependencies {
