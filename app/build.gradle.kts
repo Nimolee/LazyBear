@@ -16,12 +16,12 @@ val keystoreProperties = Properties().apply {
 
 android {
     namespace = "app.lazybear"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "app.lazybear"
-        minSdk = 30
-        targetSdk = 34
+        minSdk = 31
+        targetSdk = 35
         versionCode = 2
         versionName = "0.1.1"
 
