@@ -55,7 +55,7 @@ fun MovieBackdropBlock(
                 onClick = { expandedState.value = !expandedState.value },
                 modifier = Modifier
                     .align(Alignment.End)
-                    .padding(end = 16.dp),
+                    .padding(top = 8.dp, end = 16.dp),
             ) {
                 Text(
                     stringResource(
