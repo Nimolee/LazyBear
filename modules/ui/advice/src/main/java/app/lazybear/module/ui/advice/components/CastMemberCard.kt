@@ -1,5 +1,7 @@
 package app.lazybear.module.ui.advice.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.bumptech.glide.integration.compose.placeholder
 import com.lazybear.module.data.tmdb_api.entities.CastMember
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -32,18 +34,26 @@ fun CastMemberCard(
         modifier = modifier.padding(horizontal = 8.dp),
     ) {
         Card(
+            colors = CardDefaults.cardColors().copy(
+                containerColor = MaterialTheme.colorScheme.secondary,
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(0.75f)
         ) {
-            GlideImage(
-                model = member.profileUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                failure = placeholder(painter = painterResource(R.drawable.img_photo_placeholder)),
-                loading = placeholder(painter = painterResource(R.drawable.img_photo_placeholder)),
-                modifier = Modifier.fillMaxSize()
-            )
+            Box {
+                Image(
+                    painterResource(R.drawable.img_photo_placeholder),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+                GlideImage(
+                    model = member.profileUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
