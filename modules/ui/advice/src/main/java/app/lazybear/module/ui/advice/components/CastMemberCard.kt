@@ -13,10 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import app.lazybear.module.ui.advice.R
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.lazybear.module.data.tmdb_api.entities.CastMember
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -37,6 +40,8 @@ fun CastMemberCard(
                 model = member.profileUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
+                failure = placeholder(painter = painterResource(R.drawable.img_photo_placeholder)),
+                loading = placeholder(painter = painterResource(R.drawable.img_photo_placeholder)),
                 modifier = Modifier.fillMaxSize()
             )
         }

@@ -4,12 +4,12 @@
     <string name="settings_button">Settings</string>
     <string name="profile_title">Profile</string>
     <string name="surprise_me_button">Surprise me</string>
-    <string name="cast_title">Top Billed Cast:</string>
-    <string name="backdrops_title">Backdrops:</string>
-    <string name="trailers_title">Trailers:</string>
+    <string name="cast_title">Top Billed Cast</string>
+    <string name="backdrops_title">Backdrops</string>
+    <string name="trailers_title">Trailers</string>
     <string name="more_backdrops_button">More Backdrops</string>
     <string name="search_hint">Search</string>
-    <string name="keywords_title">Keywords:</string>
+    <string name="keywords_title">Keywords</string>
     <string name="network_error_title">Network error</string>
     <string name="network_error_message">Please check internet connection and try again</string>
     <string name="try_again_button">Try again</string>
