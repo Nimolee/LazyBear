@@ -8,6 +8,4 @@ interface AdviceNavigator {
     fun openFilters()
 
     fun openSettings()
-
-    fun openBackdropGallery(movieId: Int)
 }

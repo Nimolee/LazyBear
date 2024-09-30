@@ -12,7 +12,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,14 +29,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
@@ -48,15 +46,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
+import app.lazybear.module.ui.advice.components.MovieBackdropBlock
 import app.lazybear.module.ui.advice.components.MovieCastBlock
 import app.lazybear.module.ui.advice.components.MovieDescriptionBlock
 import app.lazybear.module.ui.advice.components.MovieKeywordsBlock
 import app.lazybear.module.ui.advice.components.MoviePosterBlock
-import app.lazybear.module.ui.advice.components.MovieSectionTitleBlock
 import app.lazybear.module.ui.advice.components.MovieTitleBlock
 import app.lazybear.module.ui.advice.components.MovieTrailerBlock
 import app.lazybear.module.ui.advice.components.WatchProvidersBlock
-import app.lazybear.module.ui.components.cards.BackdropCard
 import app.lazybear.module.ui.components.dialogs.ErrorDialog
 import app.lazybear.module.ui.components.dialogs.LoadingDialog
 import app.lazybear.module.ui.components.dialogs.NetworkErrorDialog
@@ -66,7 +63,6 @@ import app.lazybear.module.ui.localization.Localization
 import app.lazybear.module.ui.navigation.NavResultHandler
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import kotlin.math.min
 
 @Composable
 fun AdviceScreen(
@@ -165,6 +161,8 @@ fun AdviceScreen(
         }
     ) { insets ->
         val movieState = viewModel.movieFlow.collectAsState(null)
+        val backdropExpandedState = remember { mutableStateOf(false) }
+
         movieState.value?.let { movie ->
             LazyColumn(
                 state = listState,
@@ -222,38 +220,7 @@ fun AdviceScreen(
                 }
                 if (movie.backdrops.isNotEmpty()) {
                     item {
-                        MovieSectionTitleBlock(title = stringResource(id = Localization.backdrops_title))
-                    }
-                    items(min(movie.backdrops.size, 3)) { index: Int ->
-                        BackdropCard(
-                            imageUrl =
-                            movie.backdrops[index].link,
-                            aspectRatio = movie.backdrops[index].aspectRatio,
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .padding(top = 8.dp),
-                        )
-                    }
-                    if (movie.backdrops.size > 3) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        horizontal = 12.dp,
-                                        vertical = 16.dp,
-                                    )
-                            ) {
-                                OutlinedButton(
-                                    onClick = {
-                                        navigator.openBackdropGallery(movie.id)
-                                    },
-                                    modifier = Modifier.fillMaxWidth(),
-                                ) {
-                                    Text(text = stringResource(id = Localization.more_backdrops_button))
-                                }
-                            }
-                        }
+                        MovieBackdropBlock(backdrops = movie.backdrops)
                     }
                 }
                 item { MovieKeywordsBlock(keywords = movie.keywords) }

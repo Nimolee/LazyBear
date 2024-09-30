@@ -1,9 +1,9 @@
 package app.lazybear.module.ui.components.cards
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -17,7 +17,7 @@ fun BackdropCard(
     aspectRatio: Float,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(aspectRatio)

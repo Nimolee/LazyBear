@@ -78,22 +78,17 @@ fun MovieDescriptionBlock(
                 }
             }
         }
-        if (!expandedState.value) {
-            TextButton(
-                onClick = { expandedState.value = !expandedState.value },
-                modifier = Modifier.align(Alignment.End),
-            ) {
-                Text(stringResource(id = Localization.show_more_button))
-            }
-        } else {
-            TextButton(
-                onClick = { expandedState.value = !expandedState.value },
-                modifier = Modifier.align(Alignment.End),
-            ) {
-                Text(stringResource(id = Localization.show_less_button))
-            }
+        TextButton(
+            onClick = { expandedState.value = !expandedState.value },
+            modifier = Modifier
+                .align(Alignment.End),
+        ) {
+            Text(
+                stringResource(
+                    id = if (expandedState.value) Localization.show_less_button else Localization.show_more_button
+                )
+            )
         }
-
     }
 }
 
