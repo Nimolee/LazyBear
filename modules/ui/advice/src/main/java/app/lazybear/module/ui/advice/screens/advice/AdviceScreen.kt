@@ -1,5 +1,8 @@
 package app.lazybear.module.ui.advice.screens.advice
 
+import android.content.Intent
+import android.content.Intent.ACTION_VIEW
+import android.net.Uri
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -40,6 +43,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -172,7 +176,19 @@ fun AdviceScreen(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 item {
-                    MoviePosterBlock(posterUrl = movie.poster)
+                    val context = LocalContext.current
+                    MoviePosterBlock(
+                        posterUrl = movie.poster,
+                        hasTrailer = movie.trailers.isNotEmpty(),
+                        onClick = {
+                            context.startActivity(
+                                Intent(
+                                    ACTION_VIEW,
+                                    Uri.parse(movie.trailers.first().videoLink),
+                                )
+                            )
+                        },
+                    )
                 }
                 item {
                     MovieTitleBlock(
