@@ -18,6 +18,7 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = LazyColors.text,
     surface = LazyColors.background,
     onSurface = LazyColors.text,
+    outlineVariant = LazyColors.outline,
 )
 
 private val LightColorScheme = lightColorScheme(

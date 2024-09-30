@@ -5,30 +5,25 @@ import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
 import app.lazybear.module.ui.localization.Localization
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.lazybear.module.data.tmdb_api.entities.Provider
 import com.lazybear.module.data.tmdb_api.entities.Provider.AppleTV
 import com.lazybear.module.data.tmdb_api.entities.Provider.Crunchyroll
@@ -48,14 +43,9 @@ fun WatchProvidersBlock(
 ) {
     Column(modifier = modifier) {
         val context = LocalContext.current
-        Text(
-            text = stringResource(id = Localization.available_on_title),
-            style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Start,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 12.dp),
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
         )
         LazyRow(
             contentPadding = PaddingValues(
@@ -71,7 +61,7 @@ fun WatchProvidersBlock(
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .size(64.dp)
-                        .clip(CircleShape)
+                        .clip(RoundedCornerShape(14.dp))
                         .clickable {
                             context.openLink(
                                 getUriForProvider(
@@ -83,24 +73,22 @@ fun WatchProvidersBlock(
                 )
             }
             item {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.logo_google_search),
+                    contentDescription = stringResource(id = Localization.search_hint),
                     modifier = Modifier
                         .size(64.dp)
-                        .clip(CircleShape)
+                        .clip(RoundedCornerShape(14.dp))
                         .clickable {
                             context.openLink(getUriForGoogle(movieTitle, releaseYear))
                         },
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_search),
-                        contentDescription = stringResource(id = Localization.search_hint),
-                        modifier = Modifier
-                            .background(Color.White)
-                            .padding(12.dp)
-                    )
-                }
+                )
             }
         }
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
     }
 }
 
@@ -110,13 +98,13 @@ private fun Context.openLink(uri: Uri) {
 
 private fun getIconForProvider(provider: Provider): Int {
     return when (provider) {
-        AppleTV -> R.drawable.ic_apple_tv
-        GooglePlayMovies -> R.drawable.ic_google_play
-        Netflix -> R.drawable.ic_netflix
-        RakutenTV -> R.drawable.ic_rakuten_tv
-        YouTube -> R.drawable.ic_youtube
-        Crunchyroll -> R.drawable.ic_crunchyroll
-        HBOMax -> R.drawable.ic_hbo_max
+        AppleTV -> R.drawable.logo_apple_tv
+        GooglePlayMovies -> R.drawable.logo_google_play
+        Netflix -> R.drawable.logo_netflix
+        RakutenTV -> R.drawable.logo_rakuten_tv
+        YouTube -> R.drawable.logo_youtube
+        Crunchyroll -> R.drawable.logo_crunchyroll
+        HBOMax -> R.drawable.logo_hbo_max
     }
 }
 
