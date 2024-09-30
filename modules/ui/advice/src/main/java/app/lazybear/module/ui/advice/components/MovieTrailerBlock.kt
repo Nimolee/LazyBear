@@ -55,8 +55,7 @@ fun MovieTrailerBlock(
                 textAlign = TextAlign.Start,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 8.dp),
+                    .padding(horizontal = 16.dp),
             )
             trailers.subList(0, if (expandedState.value) trailers.size else min(trailers.size, 3))
                 .forEach { trailer ->

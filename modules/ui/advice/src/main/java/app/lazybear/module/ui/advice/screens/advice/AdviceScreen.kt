@@ -83,8 +83,10 @@ fun AdviceScreen(
 
     Scaffold(
         bottomBar = {
+            val networkErrorState = viewModel.networkErrorFlow.collectAsState(initial = false)
+
             AnimatedVisibility(
-                visible = listState.isScrollingUp(),
+                visible = listState.isScrollingUp() && !networkErrorState.value,
                 enter = slideInVertically(
                     initialOffsetY = { fullHeight -> 2 * fullHeight },
                     animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
