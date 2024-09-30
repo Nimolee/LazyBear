@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.lazybear.module.ui.advice.R
+import app.lazybear.module.ui.components.placeholders.PosterPlaceholder
 import app.lazybear.module.ui.localization.Localization
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -35,12 +37,18 @@ fun MoviePosterBlock(
     modifier: Modifier = Modifier,
 ) {
     Card(
+        colors = CardDefaults.cardColors().copy(
+            containerColor = MaterialTheme.colorScheme.secondary,
+        ),
         modifier = modifier
             .width((LocalConfiguration.current.screenWidthDp * 0.8).dp)
             .aspectRatio(6 / 9f)
             .padding(vertical = 12.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
+            PosterPlaceholder(
+                modifier = Modifier.align(Alignment.Center)
+            )
             GlideImage(
                 model = posterUrl,
                 contentDescription = null,
