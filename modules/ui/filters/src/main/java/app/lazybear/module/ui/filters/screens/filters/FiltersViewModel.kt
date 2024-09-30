@@ -14,4 +14,8 @@ abstract class FiltersViewModel() : ViewModel() {
     abstract fun selectYear(yearIndex: Int)
 
     abstract fun selectGenre(genre: Genre)
+
+    abstract fun clearFilters()
+
+    abstract fun applyFilters()
 }

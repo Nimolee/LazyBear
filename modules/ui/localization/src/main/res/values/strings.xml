@@ -1,12 +1,8 @@
 <resources>
-    <string name="genre_selection_title">Choose a movie genre</string>
-    <string name="year_title">What year?</string>
     <string name="shuffle_button">Shuffle</string>
     <string name="filters_button">Filters</string>
     <string name="settings_button">Settings</string>
     <string name="profile_title">Profile</string>
-    <string name="last_two_years">Last 2 years</string>
-    <string name="until_80s">Until the 80’s</string>
     <string name="surprise_me_button">Surprise me</string>
     <string name="cast_title">Top Billed Cast:</string>
     <string name="backdrops_title">Backdrops:</string>
@@ -26,6 +22,36 @@
     <string name="no_results_error_message">There no movie for your filters. Please, update preferences to found new movies.</string>
     <string name="show_more_button">Show more</string>
     <string name="show_less_button">Show less</string>
+
+    <!--Filters-->
+    <string name="filters_title">Filters</string>
+    <string name="last_two_years">Last 2 years</string>
+    <string name="until_80s">Until the 80’s</string>
+    <string name="genre_selection_title">Genre</string>
+    <string name="year_title">Year</string>
+    <string name="apply_button">Apply</string>
+    <string name="clear_button">Clear</string>
+
+    <string name="action_filter_title">Action</string>
+    <string name="adventure_filter_title">Adventure</string>
+    <string name="animation_filter_title">Animation</string>
+    <string name="comedy_filter_title">Comedy</string>
+    <string name="crime_filter_title">Crime</string>
+    <string name="documentary_filter_title">Documentary</string>
+    <string name="drama_filter_title">Drama</string>
+    <string name="family_filter_title">Family</string>
+    <string name="fantasy_filter_title">Fantasy</string>
+    <string name="history_filter_title">History</string>
+    <string name="horror_filter_title">Horror</string>
+    <string name="music_filter_title">Music</string>
+    <string name="mystery_filter_title">Mystery</string>
+    <string name="romance_filter_title">Romance</string>
+    <string name="scienceFiction_filter_title">Sci-Fi</string>
+    <string name="tv_filter_title">TV</string>
+    <string name="thriller_filter_title">Thriller</string>
+    <string name="war_filter_title">War</string>
+    <string name="western_filter_title">Western</string>
+    <string name="unknown_filter_title">Unknown</string>
 
     <!--Settings-->
     <string name="language_title">Language</string>

@@ -78,5 +78,29 @@ class PreferencesRepositoryImpl(
         }
     }
 
+    override fun overrideYear(yearIndex: Int?) {
+        _scope.launch {
+            if (yearIndex != null) {
+                _preferences.edit { putInt(SELECTED_YEAR_INDEX, yearIndex) }
+                selectedYearIndexFlow.emit(yearIndex)
+            } else {
+                _preferences.edit { remove(SELECTED_YEAR_INDEX) }
+                selectedYearIndexFlow.emit(null)
+            }
+        }
+    }
+
+    override fun overrideGenres(newGenres: List<Int>) {
+        _scope.launch {
+            _preferences.edit {
+                putString(
+                    SELECTED_GENRES_IDS,
+                    _gson.toJson(newGenres.toTypedArray()),
+                )
+            }
+            selectedGenresIdsFlow.emit(newGenres)
+        }
+    }
+
 
 }

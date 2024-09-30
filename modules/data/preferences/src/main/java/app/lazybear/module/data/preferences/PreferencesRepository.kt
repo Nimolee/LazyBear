@@ -10,4 +10,8 @@ interface PreferencesRepository {
     fun selectYear(yearIndex: Int?)
 
     fun selectGenre(genreId: Int)
+
+    fun overrideYear(yearIndex: Int?)
+
+    fun overrideGenres(newGenres: List<Int>)
 }
