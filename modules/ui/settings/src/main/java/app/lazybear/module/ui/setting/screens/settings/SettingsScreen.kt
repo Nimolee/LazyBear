@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,9 +39,6 @@ fun SettingsScreen(
     navigator: SettingsNavigator,
     viewModel: SettingsViewModel = koinViewModel(),
 ) {
-    BackHandler {
-        navigator.close()
-    }
     Scaffold(
         topBar = {
             TopAppBar(
