@@ -3,8 +3,9 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.jetbrains.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }
 
-val minSdk by extra(31)
+val minSdk by extra(30)
 val compileSdk by extra(34)
 val targetSdk by extra(34)
