@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="language_title">Мова</string>
-    <string name="current_language_title">Українська</string>
+  <string name="action_filter_title">Бойовик</string>
+  <string name="adventure_filter_title">Пригоди</string>
+  <string name="animation_filter_title">Анімація</string>
+  <string name="apply_button">Прийняти</string>
+  <string name="backdrops_title">Фони</string>
+  <string name="cancel_button">Відмінити</string>
+  <string name="cast_title">Акторський склад</string>
+  <string name="clear_button">Очистити</string>
+  <string name="close_button">Закрити</string>
+  <string name="comedy_filter_title">Комедія</string>
+  <string name="crime_filter_title">Кримінал</string>
+  <string name="current_language_title">Українська</string>
+  <string name="documentary_filter_title">Документальний</string>
+  <string name="drama_filter_title">Драма</string>
+  <string name="error_title">Помилка</string>
+  <string name="family_filter_title">Сімейний</string>
+  <string name="fantasy_filter_title">Фентезі</string>
+  <string name="filters_button">Фільтри</string>
+  <!--Filters-->
+  <string name="filters_title">Фільтри</string>
+  <string name="genre_selection_title">Жанри</string>
+  <string name="history_filter_title">Історичний</string>
+  <string name="horror_filter_title">Жахи</string>
+  <string name="keywords_title">Ключові слова</string>
+  <!--Settings-->
+  <string name="language_title">Мова</string>
+  <string name="last_two_years">Останні 2 роки</string>
+  <string name="music_filter_title">Музика</string>
+  <string name="mystery_filter_title">Містика</string>
+  <string name="network_error_message">Перевірте підключення до Інтернету та повторіть спробу</string>
+  <string name="network_error_title">Мережева помилка</string>
+  <string name="no_results_error_message">Немає фільму для ваших фільтрів. Будь ласка, оновіть налаштування фільтрів, щоб знайти нові фільми.</string>
+  <string name="ok_button">Прийняти</string>
+  <string name="profile_title">Профіль</string>
+  <string name="rate_us_title">Оцінити нас</string>
+  <string name="romance_filter_title">Романтика</string>
+  <string name="scienceFiction_filter_title">Наукова фантастика</string>
+  <string name="search_hint">Пошук</string>
+  <string name="settings_button">Налаштування</string>
+  <string name="show_less_button">Показати менше</string>
+  <string name="show_more_button">Показати більше</string>
+  <string name="shuffle_button">Перемішати</string>
+  <string name="surprise_me_button">Здивуйте мене</string>
+  <string name="thriller_filter_title">Трилер</string>
+  <string name="tmdb_link">https://www.themoviedb.org/</string>
+  <string name="tmdb_notice">Цей застосунок використовує TMDB та API TMDB, але не схвалений, не сертифікований чи іншим чином затверджений TMDB.</string>
+  <string name="trailer_button">Дивитися трейлер</string>
+  <string name="trailers_title">Трейлери</string>
+  <string name="try_again_button">Спробувати знову</string>
+  <string name="tv_filter_title">TV</string>
+  <string name="unknown_error_message">Сталася халепа, спробуйте знову</string>
+  <string name="unknown_filter_title">Невідомий</string>
+  <string name="until_80s">До 80-х</string>
+  <string name="war_filter_title">Військовий</string>
+  <string name="western_filter_title">Вестерн</string>
+  <string name="year_title">Роки</string>
 </resources>
