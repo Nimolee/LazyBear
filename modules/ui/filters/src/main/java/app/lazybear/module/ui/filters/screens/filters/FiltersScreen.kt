@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -182,7 +183,8 @@ fun FiltersScreen(
                                     viewModel.selectGenre(genre)
                                 },
                                 modifier = Modifier
-                                    .padding(horizontal = 4.dp),
+                                    .padding(horizontal = 4.dp)
+                                    .width(64.dp),
                             )
                         }
                     }
