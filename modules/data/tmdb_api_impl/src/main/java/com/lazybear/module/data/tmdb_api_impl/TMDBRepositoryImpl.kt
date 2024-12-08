@@ -39,6 +39,7 @@ class TMDBRepositoryImpl(
         const val ITEMS_PER_PAGE_IN_DISCOVER = 20
         const val MAX_PAGES_COUNT = 500
         const val ERROR_CODE_NO_MOVIE = -404
+        const val PAGE_START_OFFSET = 1
     }
 
     override val genresFlow: MutableStateFlow<List<Genre>> = MutableStateFlow(emptyList())
@@ -51,11 +52,10 @@ class TMDBRepositoryImpl(
             if (movieId == recommendedMovieFlow.value?.id) {
                 ServerResult.Success(recommendedMovieFlow.value)
             } else {
-                _movieEndpoints.loadMovieDetails(movieId).map {
-                    it?.toDomain().also { movie -> recommendedMovieFlow.emit(movie) }
-                }.dropNull().dropNull().onSuccess {
-                    logD(TAG, "loadMovie") { "loadMovieResult = $it" }
-                }
+                _movieEndpoints.loadMovieDetails(movieId)
+                    .map { it?.toDomain().also { movie -> recommendedMovieFlow.emit(movie) } }
+                    .dropNull()
+                    .onSuccess { logD(TAG, "loadMovie") { "loadMovieResult = $it" } }
             }
         }.await()
     }
@@ -73,9 +73,11 @@ class TMDBRepositoryImpl(
                         genres
                     }
                 }.dropNull()
-            }.toResult(errorMapper = { GenresErrors.UnknownError },
+            }.toResult(
+                errorMapper = { GenresErrors.UnknownError },
                 networkErrorMapper = { GenresErrors.NetworkError },
-                unknownErrorMapper = { GenresErrors.UnknownError })
+                unknownErrorMapper = { GenresErrors.UnknownError },
+            )
         }.await()
     }
 
@@ -106,8 +108,8 @@ class TMDBRepositoryImpl(
 
                 val movieIndex = Random.nextInt(totalResults)
                 val page = min(
-                    movieIndex / ITEMS_PER_PAGE_IN_DISCOVER + 1 // Pages start from 1
-                    , MAX_PAGES_COUNT
+                    movieIndex / ITEMS_PER_PAGE_IN_DISCOVER + PAGE_START_OFFSET,
+                    MAX_PAGES_COUNT,
                 )
                 _discoverEndpoints.getDiscoveredMovies(
                     genres = genresString,
