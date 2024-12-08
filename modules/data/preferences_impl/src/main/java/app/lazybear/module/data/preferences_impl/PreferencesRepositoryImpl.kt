@@ -3,6 +3,7 @@ package app.lazybear.module.data.preferences_impl
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import app.lazybear.module.data.preferences.PreferencesRepository
+import app.lazybear.module.data.preferences_impl.PreferencesConstants.NO_YEAR_INDEX
 import app.lazybear.module.data.preferences_impl.PreferencesConstants.SELECTED_GENRES_IDS
 import app.lazybear.module.data.preferences_impl.PreferencesConstants.SELECTED_YEAR_INDEX
 import com.google.gson.Gson
@@ -19,7 +20,6 @@ class PreferencesRepositoryImpl(
 ) : PreferencesRepository {
     companion object {
         const val TAG = "PreferencesRepositoryImpl"
-        const val NO_YEAR_INDEX = -1
     }
 
     override val tokenFlow: MutableStateFlow<String?>
