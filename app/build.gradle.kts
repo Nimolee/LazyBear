@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 
@@ -22,8 +23,8 @@ android {
         applicationId = "app.lazybear"
         minSdk = rootProject.extra.get("minSdk") as Int
         targetSdk = rootProject.extra.get("targetSdk") as Int
-        versionCode = 3
-        versionName = "0.2.0"
+        versionCode = 4
+        versionName = "0.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
