@@ -5,6 +5,14 @@ import kotlinx.coroutines.flow.StateFlow
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * Auth interceptor that used to input authorization data to request
+ * Supports bearer token and api key authorization.
+ * Bearer token will be used as default and api key as fallback.
+ *
+ * @param _bearerFlow state flow with user bearer token
+ * @param _apiKey api key for current application
+ */
 class AuthInterceptor(
     private val _bearerFlow: StateFlow<String?>,
     private val _apiKey: String,

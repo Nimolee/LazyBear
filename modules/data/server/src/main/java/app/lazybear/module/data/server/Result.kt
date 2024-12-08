@@ -1,5 +1,8 @@
 package app.lazybear.module.data.server
 
+/**
+ * Simple result encapsulation with two types that contain success body and error information
+ */
 data class Result<out T, out E>(
     val body: T?,
     val error: E?,

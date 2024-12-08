@@ -1,5 +1,8 @@
 package app.lazybear.module.data.server
 
+/**
+ * Sealed class to encapsulate server operation result.
+ */
 sealed class ServerResult<out T : Any?> {
     abstract val body: T?
     abstract val error: String
@@ -15,12 +18,15 @@ sealed class ServerResult<out T : Any?> {
     ) : ServerResult<T>() {
         override val error: Nothing
             get() {
+                Result
                 throw IllegalAccessException()
             }
     }
 
     /**
-     * Plain error with code and error message
+     * Plain error with code and error message.
+     * Used to handle errors with codes 400..422
+     * Contain error code and error string for future operation.
      */
     data class Error(
         val code: Int,
@@ -33,7 +39,7 @@ sealed class ServerResult<out T : Any?> {
     }
 
     /**
-     * Network connection error
+     * Error that represent problem in network connection.
      */
     data object NetworkError : ServerResult<Nothing>() {
         override val body: Nothing
@@ -48,7 +54,7 @@ sealed class ServerResult<out T : Any?> {
 
 
     /**
-     * Unexpected exceptions
+     * Unexpected exceptions that are not handled by the application.
      */
     data object UnknownError : ServerResult<Nothing>() {
         override val body: Nothing
@@ -62,6 +68,10 @@ sealed class ServerResult<out T : Any?> {
     }
 }
 
+/**
+ * Returns a ServerResult containing the result of applying transform function to body
+ * when result is [ServerResult.Success] otherwise error will be returned without modification.
+ */
 suspend fun <T, M : Any> ServerResult<T>.map(
     mapper: suspend (body: T?) -> M?,
 ): ServerResult<M?> {
@@ -73,6 +83,9 @@ suspend fun <T, M : Any> ServerResult<T>.map(
     }
 }
 
+/**
+ * Execute following function when this result is success.
+ */
 suspend fun <T> ServerResult<T>.onSuccess(
     onSuccess: suspend (body: T?) -> Unit,
 ): ServerResult<T> {
@@ -82,6 +95,9 @@ suspend fun <T> ServerResult<T>.onSuccess(
     return this
 }
 
+/**
+ * Extension to simplify handling of every error type.
+ */
 suspend fun <T> ServerResult<T>.onError(
     onError: (code: Int, error: String) -> Unit,
     onUnknownError: () -> Unit,
@@ -96,6 +112,12 @@ suspend fun <T> ServerResult<T>.onError(
     return this
 }
 
+/**
+ * During consecutive network requests where one request goes after another
+ * this method may be used to remove included results.
+ * Because next network request should not be executed when previous fail conversion
+ * will return success body of second result or errors from both result.
+ */
 fun <T> ServerResult<ServerResult<T>?>.mergeErrors(): ServerResult<T> {
     return when (this) {
         is ServerResult.Error -> this
@@ -111,6 +133,11 @@ fun <T> ServerResult<ServerResult<T>?>.mergeErrors(): ServerResult<T> {
     }
 }
 
+/**
+ * This method should be used in case when nullable type returned after [mergeErrors] method but
+ * non nullable expected.
+ * If [ServerResult] with null body provided [UnknownError] will be returned.
+ */
 fun <T> ServerResult<T?>.dropNull(): ServerResult<T> {
     return when (this) {
         is ServerResult.Success -> {
@@ -127,6 +154,9 @@ fun <T> ServerResult<T?>.dropNull(): ServerResult<T> {
     }
 }
 
+/**
+ * Convert [ServerResult] to [Result] to be used inside ViewModels.
+ */
 fun <T, E> ServerResult<T>.toResult(
     errorMapper: (ServerResult.Error) -> E,
     networkErrorMapper: () -> E,

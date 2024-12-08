@@ -10,6 +10,14 @@ import retrofit2.Response
 import retrofit2.Response.success
 import java.io.IOException
 
+/**
+ * Call adapter that will convert retrofit result to [ServerResult]
+ * Supported conversions:
+ * 200, 204 -> [ServerResult.Success]
+ * 400-422 -> [ServerResult.Error]
+ * No network connection -> [ServerResult.NetworkError]
+ * other cases -> [ServerResult.UnknownError]
+ */
 internal class ServerResultCallAdapter<S : Any?>(
     private val delegate: Call<S>,
 ) : Call<ServerResult<S>> {
